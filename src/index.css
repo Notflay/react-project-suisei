@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+.bg-current {
+  background-color: #F0EFEA      ;
+}
+
+
+@layer {
+  .itemsa {
+    @apply text-3xl px-3 py-2  font-semibold 
+    rounded-md block lg:inline-block lg:mt-0 mr-4 hover:text-red-700 !important
+  }
+  .itemsb {
+    @apply text-xl px-3 py-2 font-sans
+    rounded-md block mt-4 lg:inline-block lg:mt-0 mr-4 hover:text-red-700 !important
+  }
+  .itembtn {
+    @apply relative inline-flex  items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20
+  }
+}
+
+.border-indigo-500 {
+  border-color: #eee !important;
+}
+
+.itemLef {
+  margin-left: 158px;
+}
+
+body {
+  background-color: #eee;
+}
+
+#filtCart {
+  background-color: #F8F8F8 !important;
+}
