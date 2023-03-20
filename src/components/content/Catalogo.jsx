@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 
 const Catalogo = ({ products }) => {
   return (
-    <div className="p-10 bg-white mt-2">
-      <div className="grid grid-flow-row-dense grid-cols-3 gap-3">
+    <div className="p-10 bg-white my-2">
+      <div className="grid grid-flow-row-dense grid-cols-3 max-[700px]:grid-cols-1 gap-3">
         {products.map((data, key) => (
           <motion.div
             whileHover={{ scale: 0.9 }}

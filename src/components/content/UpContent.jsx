@@ -208,7 +208,7 @@ const UpContent = ({ setPage, getRops }) => {
           </ul>
         </div>
       </div>
-      <div className="ml-40 pt-7 flex">
+      <div className="ml-3 pt-7 flex">
         {items.length > 1 && (
           <span
             style={{ color: "#888", marginTop: "5px" }}
@@ -217,7 +217,7 @@ const UpContent = ({ setPage, getRops }) => {
             Páginas:
           </span>
         )}
-        <div className="flex items-center justify-between bg-white px-4 pb-6 pb- sm:px-6">
+        <div className="flex items-center justify-between bg-white px-4 pb-6 sm:px-6">
           <div className="flex flex-1 justify-between sm:hidden">
             <a
               href="#"

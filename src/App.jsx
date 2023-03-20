@@ -2,6 +2,8 @@ import axios from "axios";
 import { createContext, React, useContext, useEffect, useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Content from "./components/Content";
+import Login from "./components/content/Login";
+import Registrar from "./components/content/Registrar";
 import Footer from "./components/partials/Footer";
 import Header from "./components/partials/Header";
 import { getRopa } from "./services/axios.service";
@@ -44,6 +46,12 @@ function App() {
         <main>
           <Routes>
             <Route index element={<Content />} />
+          </Routes>
+          <Routes>
+            <Route path="/registro" element={<Registrar />} />
+          </Routes>
+          <Routes>
+            <Route path="/login" element={<Login />} />
           </Routes>
         </main>
         <Footer />

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -9,12 +9,21 @@ import { AppContext } from "../../App";
 
 const Header = () => {
   const { toggle, setToggle } = useContext(AppContext);
+  const [log, setLog] = useState(false);
 
   function changeToggle() {
     let menu = document.getElementById("menu");
     menu.classList.toggle("hidden");
     setToggle(!toggle);
   }
+
+  useEffect(() => {
+    if (localStorage.getItem("login")) {
+      setLog(true);
+    } else {
+      setLog(false);
+    }
+  }, []);
 
   return (
     <nav
@@ -51,11 +60,13 @@ const Header = () => {
       >
         <div className="lg:flex-grow">
           <a className="itemsa">Inicio</a>
-          <a className="itemsb">
-            Hola,
-            <br />
-            Inicia sesión
-          </a>
+          {!log ? (
+            <a className="itemsb" href="/registro">
+              Hola,
+              <br />
+              Inicia sesión
+            </a>
+          ) : null}
           <a className="itemsb">
             <div className="flex">
               <AiOutlineShoppingCart className="mt-2"></AiOutlineShoppingCart>

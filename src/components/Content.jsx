@@ -46,7 +46,7 @@ const Content = () => {
     } else {
       return products;
     }
-  };  
+  };
 
   async function getRops(page = 1, dif = filt, col = filtcol, ord = order) {
     if (dif === null && col == null) {
@@ -92,7 +92,13 @@ const Content = () => {
         <div className="w-80">
           <Filtrado getRops={getRops} filt={filt} setFilt={setFilt} />
         </div>
-        <div className="w-full flex-grow pl-2">
+        <div className="w-full flex-grow pl-2 max-[700px]:hidden">
+          <UpContent getRops={getRops} />
+          <Catalogo products={products} />
+        </div>
+      </div>
+      <div className="pt-2 w-4/6 m-auto">
+        <div className="w-full flex-grow pl-2 lg:hidden">
           <UpContent getRops={getRops} />
           <Catalogo products={products} />
         </div>

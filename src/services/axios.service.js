@@ -37,3 +37,19 @@ export const getColFilt = (page, body) => {
     },
   });
 };
+
+export const createUser = (body) => {
+  return API.post("/createUser", body, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};
+
+export const loginUser = (body) => {
+  return API.post("/loginUser", body, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};
