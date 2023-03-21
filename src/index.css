@@ -5,7 +5,7 @@
 
 
 .bg-current {
-  background-color: #F0EFEA      ;
+  background-color: #fff      ;
 }
 
 
@@ -24,7 +24,7 @@
 }
 
 .border-indigo-500 {
-  border-color: #eee !important;
+  border-color: #fff  !important;
 }
 
 .itemLef {
@@ -32,7 +32,7 @@
 }
 
 body {
-  background-color: #eee;
+  background-color: #fff ;
 }
 
 #filtCart {

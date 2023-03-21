@@ -2,7 +2,9 @@ import axios from "axios";
 import { createContext, React, useContext, useEffect, useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Content from "./components/Content";
+
 import Login from "./components/content/Login";
+import Pruebah from "./components/content/Pruebah";
 import Registrar from "./components/content/Registrar";
 import Footer from "./components/partials/Footer";
 import Header from "./components/partials/Header";
@@ -52,6 +54,9 @@ function App() {
           </Routes>
           <Routes>
             <Route path="/login" element={<Login />} />
+          </Routes>
+          <Routes>
+            <Route path="/prueba" element={<Pruebah />} />
           </Routes>
         </main>
         <Footer />

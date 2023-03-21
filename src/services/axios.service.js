@@ -53,3 +53,11 @@ export const loginUser = (body) => {
     },
   });
 };
+
+export const getProduct = (id) => {
+  return API.get(`/product/${id}`, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};

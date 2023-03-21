@@ -48,7 +48,7 @@ const UpContent = ({ setPage, getRops }) => {
             tabIndex={0}
             id={`btn${i}`}
             aria-current="page"
-            className={`cursor-pointer border relative z-10 hidden items-center px-4 py-2 text-sm font-medium 
+            className={`cursor-pointer border relative z-10 hidden items-center px-4 py-2  text-sm font-medium 
             text-gray-500 focus:z-20 hover:bg-gray-50}`}
             onClick={() => {
               handleClick(i);
@@ -63,7 +63,7 @@ const UpContent = ({ setPage, getRops }) => {
             <a
               tabIndex={0}
               aria-current="page"
-              className={`cursor-pointer border relative z-10 inline-flex items-center px-4 py-2 text-sm font-medium 
+              className={`cursor-pointer border relative z-10 inline-flex items-center px-4 py-2 max-[700px]:w-1 text-sm font-medium 
               text-gray-500 focus:z-20 `}
               onClick={() => {}}
             >
@@ -77,7 +77,7 @@ const UpContent = ({ setPage, getRops }) => {
             id={`btn${i}`}
             tabIndex={0}
             aria-current="page"
-            className={`cursor-pointer border relative z-10 inline-flex items-center px-4 py-2 text-sm font-medium 
+            className={`cursor-pointer border relative z-10 inline-flex items-center max-[700px]:w-1 px-4 py-2 text-sm font-medium 
             text-gray-500 focus:z-20 hover:bg-gray-50}  ${
               activeBtn === i && "bg-red-50 border-red-300"
             }`}
@@ -112,8 +112,8 @@ const UpContent = ({ setPage, getRops }) => {
   }
 
   return (
-    <div className="bg-white h-24 flex flex-row gap-5">
-      <div className="pt-4 flex flex-col">
+    <div className="bg-white lg:h-24  lg:flex lg:flex-row gap-5  ">
+      <div className="pt-4 lg:flex lg:flex-col">
         <div style={{ color: "#888" }} className="text-xs pl-8 ">
           Ordenar por:{" "}
         </div>
@@ -147,7 +147,7 @@ const UpContent = ({ setPage, getRops }) => {
           </div>
         </div>
         <div
-          className="ml-8 w-56 hidden"
+          className="ml-8 w-56 hidden border"
           id="dropdown"
           ref={first}
           style={{ position: "relative", zIndex: 1 }}
@@ -208,7 +208,7 @@ const UpContent = ({ setPage, getRops }) => {
           </ul>
         </div>
       </div>
-      <div className="ml-3 pt-7 flex">
+      <div className="ml-3 pt-7 lg:flex ">
         {items.length > 1 && (
           <span
             style={{ color: "#888", marginTop: "5px" }}
@@ -217,7 +217,7 @@ const UpContent = ({ setPage, getRops }) => {
             Páginas:
           </span>
         )}
-        <div className="flex items-center justify-between bg-white px-4 pb-6 sm:px-6">
+        <div className="lg:flex items-center justify-between bg-white px-4 pb-6 sm:px-6">
           <div className="flex flex-1 justify-between sm:hidden">
             <a
               href="#"
@@ -232,7 +232,7 @@ const UpContent = ({ setPage, getRops }) => {
               Next
             </a>
           </div>
-          <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+          <div className="sm:flex sm:flex-1 sm:items-center sm:justify-between max-[700px]:mt-2">
             <div>
               {items.length > 1 && (
                 <nav
@@ -242,7 +242,7 @@ const UpContent = ({ setPage, getRops }) => {
                   <div>
                     <a
                       href="#"
-                      className="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
+                      className="relative inline-flex items-center rounded-l-md max-[700px]:w-1 border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
                       onClick={() => {
                         if (orden > 1) {
                           document
@@ -274,7 +274,7 @@ const UpContent = ({ setPage, getRops }) => {
                   <div>
                     <a
                       href="#"
-                      className="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
+                      className="relative inline-flex items-center rounded-r-md border max-[700px]:w-1 border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
                       onClick={() => {
                         if (orden < num - 5) {
                           document

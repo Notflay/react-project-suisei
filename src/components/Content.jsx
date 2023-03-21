@@ -83,22 +83,25 @@ const Content = () => {
 
   return (
     <div
+    /*
       className={`lg:my-24 ${
         toggle ? "max-[600px]:mt-36" : "max-[600px]:mt-96"
-      }`}
+      }`}*/
     >
-      <div className="w-4/6 m-auto flex pt-2">
+      <br />
+      <hr className="w-4/6 m-auto" />
+      <div className="w-4/6 m-auto flex pt-7">
         {/* Grid in 2 columns */}
         <div className="w-80">
           <Filtrado getRops={getRops} filt={filt} setFilt={setFilt} />
         </div>
-        <div className="w-full flex-grow pl-2 max-[700px]:hidden">
+        <div className="w-full flex-grow lg:pl-2 max-[700px]:hidden">
           <UpContent getRops={getRops} />
           <Catalogo products={products} />
         </div>
       </div>
       <div className="pt-2 w-4/6 m-auto">
-        <div className="w-full flex-grow pl-2 lg:hidden">
+        <div className="w-full flex-grow lg:pl-2 lg:hidden">
           <UpContent getRops={getRops} />
           <Catalogo products={products} />
         </div>
