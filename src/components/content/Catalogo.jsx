@@ -18,7 +18,7 @@ const Catalogo = ({ products }) => {
             <img
               src={data.modelPerColors[0].urlImage}
               className="w-full"
-              style={{ height: "308px" }}
+              style={{ height: "62%" }}
             />
 
             <div
