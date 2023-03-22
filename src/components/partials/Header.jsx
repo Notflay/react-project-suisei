@@ -78,7 +78,9 @@ const Header = () => {
           className="w-full block flex-grow lg:flex lg:items-center lg:w-auto"
         >
           <div className="lg:flex-grow">
-            <a className="itemsa">Inicio</a>
+            <a className="itemsa" href="/">
+              Inicio
+            </a>
             {!log ? (
               <a className="itemsb" href="/registro">
                 Hola,
@@ -86,7 +88,7 @@ const Header = () => {
                 Inicia sesión
               </a>
             ) : null}
-            <a className="itemsb">
+            <a className="itemsb" href="/carrito">
               <div className="flex">
                 <AiOutlineShoppingCart className="mt-2"></AiOutlineShoppingCart>
                 <p className="">Carrito</p>

@@ -2,6 +2,7 @@ import axios from "axios";
 import { createContext, React, useContext, useEffect, useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Content from "./components/Content";
+import Carrito from "./components/content/Carrito";
 
 import Login from "./components/content/Login";
 import Pruebah from "./components/content/Pruebah";
@@ -20,6 +21,7 @@ function App() {
   const [filt, setFilt] = useState(null);
   const [filtcol, setFiltcol] = useState(null);
   const [order, setOrder] = useState(null);
+  const [preCompra, setPreCompra] = useState(null);
 
   useEffect(() => {
     setBottons(Math.ceil(total / 9));
@@ -41,6 +43,8 @@ function App() {
         setTotal,
         total,
         bottons,
+        preCompra,
+        setPreCompra,
       }}
     >
       <Router>
@@ -57,6 +61,9 @@ function App() {
           </Routes>
           <Routes>
             <Route path="/prueba" element={<Pruebah />} />
+          </Routes>
+          <Routes>
+            <Route path="/carrito/:id" element={<Carrito />} />
           </Routes>
         </main>
         <Footer />
