@@ -68,6 +68,13 @@ export default function Login() {
                     />
 
                     <input type="submit" value="INGRESAR" />
+
+                    <div className="register">
+                      <p>No tienes una cuenta, registrate!!!</p>
+                    </div>
+
+                    <a className="btn-register" href="/registro">REGISTRATE</a>
+
                   </form>
                 </div>
               </div>

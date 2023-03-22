@@ -1,6 +1,6 @@
 import React from "react";
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import "../css/Registrar.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "../css/Registrar.css";
 import { useNavigate } from "react-router-dom";
 import { createUser } from "../../services/axios.service";
 
