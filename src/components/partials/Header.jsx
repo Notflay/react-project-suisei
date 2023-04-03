@@ -4,6 +4,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import {AiOutlineDropbox} from 'react-icons/ai';
 import { FaSearch } from "react-icons/fa";
 import { AppContext } from "../../App";
 import { ToastContainer, toast } from "react-toastify";
@@ -127,6 +128,14 @@ const Header = ({ changeItem }) => {
                 )}
               </div>
             </a>
+            
+            <a className="itemsb" href="/login">
+              <div className="flex">
+                <AiOutlineDropbox className="mt-2"></AiOutlineDropbox>
+                <p className="">Iniciar Sesion</p>
+              </div>
+            </a>
+
           </div>
         </div>
         <div
