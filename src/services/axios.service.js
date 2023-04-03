@@ -61,3 +61,35 @@ export const getProduct = (id) => {
     },
   });
 };
+
+export const createCart = (id, body) => {
+  return API.post(`/createCarrito/${id}`, body, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};
+
+export const getUsuario = (id) => {
+  return API.get(`/getUsuario/${id}`, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};
+
+export const deleteCart = (id, body) => {
+  return API.put(`/deletecart/${id}`, body, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};
+
+export const contCart = (id) => {
+  return API.get(`/countCart/${id}`, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};

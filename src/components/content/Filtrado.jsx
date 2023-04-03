@@ -191,47 +191,7 @@ const Filtrado = ({ getRops, filt, setFilt }) => {
             </ul>
           </div>
         </li>
-        <li className="my-3">
-          <button
-            className="flex w-full"
-            onClick={() => {
-              setIsExpendedPre(!isExpendedPre);
-              document.getElementById("itemThree").classList.toggle("hidden");
-            }}
-          >
-            <div>
-              <h2 className="text-xl " style={{ fontWeight: "400" }}>
-                Precio
-              </h2>
-            </div>
-            <span style={{ marginLeft: "189px" }}>
-              {!isExpendedPre ? (
-                <TfiAngleDown
-                  className=""
-                  style={{ fontSize: "25px" }}
-                ></TfiAngleDown>
-              ) : (
-                <TfiAngleUp style={{ fontSize: "25px" }}></TfiAngleUp>
-              )}
-            </span>
-          </button>
-          <div className="py-2 hidden" id="itemThree">
-            <ul>
-              <li className="pb-2">
-                <input type={"checkbox"} />
-                <span> Hasta S/ 50</span>
-              </li>
-              <li className="pb-2">
-                <input type={"checkbox"} />
-                <span> S/ 50 - S/ 100</span>
-              </li>
-              <li className="pb-2">
-                <input type={"checkbox"} />
-                <span> S/ 100 - S/ 200</span>
-              </li>
-            </ul>
-          </div>
-        </li>
+
         <li className="my-3">
           <button
             className="flex w-full"

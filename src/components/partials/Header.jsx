@@ -6,10 +6,17 @@ import { useNavigate } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { FaSearch } from "react-icons/fa";
 import { AppContext } from "../../App";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const Header = () => {
-  const { toggle, setToggle } = useContext(AppContext);
-  const [log, setLog] = useState(false);
+const Header = ({ changeItem }) => {
+  const { toggle, setToggle, log, preVentas } = useContext(AppContext);
+
+  const notify = () => {
+    toast.error("Inicia sesión!", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  };
 
   function changeToggle() {
     let menu = document.getElementById("menu");
@@ -17,12 +24,14 @@ const Header = () => {
     setToggle(!toggle);
   }
 
+  function getValidationsUser() {
+    const item = localStorage.getItem("login");
+    return item;
+  }
+
   useEffect(() => {
-    if (localStorage.getItem("login")) {
-      setLog(true);
-    } else {
-      setLog(false);
-    }
+    changeItem();
+    console.log(preVentas);
   }, []);
 
   return (
@@ -87,11 +96,35 @@ const Header = () => {
                 <br />
                 Inicia sesión
               </a>
-            ) : null}
-            <a className="itemsb" href="/carrito">
+            ) : (
+              <div
+                className="itemsb text-lg"
+                onClick={() => {
+                  localStorage.removeItem("login");
+                  changeItem();
+                }}
+              >
+                Cerrar sersión
+              </div>
+            )}
+            <a
+              className="itemsb"
+              href={
+                getValidationsUser() !== null &&
+                `/carrito/${getValidationsUser()}`
+              }
+              onClick={() => {
+                getValidationsUser() === null && notify();
+              }}
+            >
               <div className="flex">
                 <AiOutlineShoppingCart className="mt-2"></AiOutlineShoppingCart>
                 <p className="">Carrito</p>
+                {preVentas !== 0 && (
+                  <div className="-ml-0.5 rounded-full  bg-red-500 text-white w-5 text-center text-sm h-5">
+                    {preVentas}
+                  </div>
+                )}
               </div>
             </a>
           </div>

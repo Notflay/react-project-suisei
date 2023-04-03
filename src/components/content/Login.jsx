@@ -2,14 +2,28 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../services/axios.service";
 
-export default function Login() {
+export default function Login({ changeItem }) {
   const navigate = new useNavigate();
 
   async function loginIn(e) {
     e.preventDefault();
-    console.log(e.target[1].value);
-    console.log(e.target[2].value);
-    await loginUser({
+
+    loginUser({
+      email: e.target[1].value,
+      password: e.target[2].value,
+    })
+      .then((response) => {
+        if (response.status === 201) {
+          navigate("/");
+          localStorage.setItem("login", response.data);
+          changeItem();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    /*  await loginUser({
       email: e.target[1].value,
       password: e.target[2].value,
     })
@@ -23,7 +37,7 @@ export default function Login() {
       })
       .catch((response) => {
         alert("Usuario/Contraseña incorrecta");
-      });
+      }); */
   }
 
   return (

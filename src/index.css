@@ -55,3 +55,7 @@ body {
   -o-transform: scale(1.8);
   transform: scale(1.8);
 } */
+
+.ElementsApp .InputElement.is-invalid {
+  font-size:  50px;
+}
