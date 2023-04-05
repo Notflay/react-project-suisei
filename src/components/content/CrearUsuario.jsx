@@ -1,30 +1,29 @@
 import React from "react";
-import "../css/Login.css";
+// import 'bootstrap/dist/css/bootstrap.min.css';
+import "../css/CrearUsuario.css";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../../services/axios.service";
+import { createUser } from "../../services/axios.service";
 
-export default function Login() {
-  const navigate = new useNavigate();
+const CrearUsuario = ({}) => {
+  const navigate = useNavigate();
 
-  async function loginIn(e) {
+  async function formData(e) {
     e.preventDefault();
-    console.log(e.target[1].value);
-    console.log(e.target[2].value);
-    await loginUser({
+
+    console.log(e.target[1].value, e.target[2].value);
+
+    createUser({
       email: e.target[1].value,
       password: e.target[2].value,
     })
       .then((response) => {
-        if (response.status === 201) {
-          navigate("/");
-          localStorage.setItem("login", true);
-        } else {
-          alert("Usuario/Contraseña incorrecta");
-        }
+        console.log(response.data);
       })
-      .catch((response) => {
-        alert("Usuario/Contraseña incorrecta");
+      .catch((error) => {
+        console.log(error.message);
       });
+
+    navigate("/login");
   }
 
   return (
@@ -41,10 +40,10 @@ export default function Login() {
                 <div className="main">
                   <div className="titulo">
                     <h2 className="titulo-content">
-                      Bienvenido a Suisei Peru.<span>&#160;</span>
+                      Forma parte de Suisei Peru.<span>&#160;</span>
                     </h2>
                   </div>
-                  <form className="formulario" onSubmit={loginIn}>
+                  <form className="formulario" onSubmit={formData}>
                     <input type="hidden" name="remember" value="true" />
 
                     <p>Escribe tu correo:</p>
@@ -66,17 +65,7 @@ export default function Login() {
                       placeholder="Password"
                     />
 
-                    <input type="submit" value="INGRESAR" />
-
-                    <div className="register">
-                      <p>No tienes una cuenta, registrate!!!</p>
-                    </div>
-
-                    <a className="btn-register" href="/registro">REGISTRATE</a>
-                    <br />
-                    <br />
-                    <a className="actualizar" href="/updatePass">Olvidaste tu Contraseña</a>
-
+                    <input type="submit" value="REGISTRARME" />
                   </form>
                 </div>
               </div>
@@ -86,4 +75,6 @@ export default function Login() {
       </div>
     </>
   );
-}
+};
+
+export default CrearUsuario;
