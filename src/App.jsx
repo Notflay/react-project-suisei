@@ -10,6 +10,7 @@ import Registrar from "./components/content/Registrar";
 import Footer from "./components/partials/Footer";
 import Header from "./components/partials/Header";
 import { contCart, getRopa } from "./services/axios.service";
+import FormProducto from "./components/content/FormProducto";
 
 export const AppContext = createContext(null);
 
@@ -82,6 +83,9 @@ function App() {
           </Routes>
           <Routes>
             <Route path="/carrito/:id" element={<Carrito />} />
+          </Routes>
+          <Routes>
+            <Route path="/createprod" element={<FormProducto />} />
           </Routes>
         </main>
         <Footer />

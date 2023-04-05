@@ -4,7 +4,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import {AiOutlineDropbox} from 'react-icons/ai';
+import { AiOutlineDropbox } from "react-icons/ai";
 import { FaSearch } from "react-icons/fa";
 import { AppContext } from "../../App";
 import { ToastContainer, toast } from "react-toastify";
@@ -99,13 +99,13 @@ const Header = ({ changeItem }) => {
               </a>
             ) : (
               <div
-                className="itemsb text-lg"
+                className="itemsb text-lg hover:cursor-pointer"
                 onClick={() => {
                   localStorage.removeItem("login");
                   changeItem();
                 }}
               >
-                Cerrar sersión
+                Cerrar sesión
               </div>
             )}
             <a
@@ -120,7 +120,7 @@ const Header = ({ changeItem }) => {
             >
               <div className="flex">
                 <AiOutlineShoppingCart className="mt-2"></AiOutlineShoppingCart>
-                <p className="">Carrito</p>
+                <p className="hover:cursor-pointer">Carrito</p>
                 {preVentas !== 0 && (
                   <div className="-ml-0.5 rounded-full  bg-red-500 text-white w-5 text-center text-sm h-5">
                     {preVentas}
@@ -128,14 +128,13 @@ const Header = ({ changeItem }) => {
                 )}
               </div>
             </a>
-            
+
             <a className="itemsb" href="/login">
               <div className="flex">
                 <AiOutlineDropbox className="mt-2"></AiOutlineDropbox>
                 <p className="">Iniciar Sesion</p>
               </div>
             </a>
-
           </div>
         </div>
         <div

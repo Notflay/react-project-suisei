@@ -1,7 +1,7 @@
 .flip-card {
   width: 100%;
   height: 100%;
-  perspective: 1000px; /* adds 3D effect */
+  perspective: 1000px; 
 }
 
 .flip-card-inner {
@@ -16,7 +16,7 @@
   transform-style: preserve-3d;
 }
 
-/* Flips the card when hovered */
+
 .flip-card:hover .flip-card-inner {
   transform: rotateY(180deg);
 }
@@ -52,7 +52,7 @@
   transform: rotateY(180deg);
 }
 
-/*estilo de caja*/
+
 .mainbox {
   height: 80%;
   background-color: rgba(255, 255, 255, 0);

@@ -15,6 +15,7 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
+import { toast } from "react-toastify";
 
 const stripePromise = loadStripe(
   "pk_test_51MWLL2L4SPD0MxRcyV9eR8iQv4Jx3NqWCLIuWvPvL58Pjh4IVrP0DoYqjqmxXg69wqkDPhejIVB5iTSciJA7rt8k00jGCqBVto"
@@ -38,6 +39,12 @@ const Carrito = () => {
         console.log(error.message);
       });
   }
+
+  const notify = () => {
+    toast.error("Error!", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  };
 
   async function handleSubmit(e, stripeus, elements) {
     try {
@@ -111,7 +118,17 @@ const Carrito = () => {
             disabled={!stripeus}
             style={{ width: "399px" }}
             onClick={() => {
-              alert("Comprado exitosamente");
+              const ord =
+                document.getElementById("regionId").options.selectedIndex;
+
+              if (
+                document.getElementById("regionId").options[ord].outerText ===
+                "Cusco"
+              ) {
+                notify();
+              } else {
+                alert("Comprado exitosamente");
+              }
             }}
           >
             Buy

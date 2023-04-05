@@ -82,34 +82,6 @@ const Content = () => {
       console.log(error);
     }
   }
-  /*   async function getRops(page = 1, dif = filt, col = filtcol, ord = order) {
-    if (dif === null && col == null) {
-      const prods = await getRopa(page);
-      setProducts(orderProduct(prods.data.products, ord));
-      setTotal(prods.data.totalItems);
-      setOrder(ord);
-    } else if (dif !== null && col === null) {
-      const prod = {
-        product: dif.id,
-      };
-      const prods = await getRopFilt(page, prod);
-      setProducts(orderProduct(prods.data.products, ord));
-      setTotal(prods.data.totalItems);
-      setOrder(ord);
-      setFilt(dif);
-    } else if (dif === null && col !== null) {
-      if (col.length < 1) {
-        getRops(1, null, null);
-      } else {
-        const prods = await getColFilt(page, col);
-        setProducts(orderProduct(prods.data.products, ord));
-        setTotal(prods.data.totalItems);
-        setFiltcol(col);
-        setOrder(ord);
-        setFilt(dif);
-      }
-    }
-  } */
 
   useEffect(() => {
     getRops();
@@ -126,7 +98,7 @@ const Content = () => {
       <hr className="w-4/6  m-auto" />
       <div className="mx-auto max-w-6xl m-auto flex pt-7 ">
         {/* Grid in 2 columns */}
-        <div className="w-80 max-[700px]:m-auto">
+        <div className="w-80 max-[700px]:m-auto ">
           <Filtrado getRops={getRops} filt={filt} setFilt={setFilt} />
         </div>
         <div className="w-full flex-grow lg:pl-2 max-[700px]:hidden">

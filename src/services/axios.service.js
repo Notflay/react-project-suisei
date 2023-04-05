@@ -93,3 +93,43 @@ export const contCart = (id) => {
     },
   });
 };
+
+export const getColors = () => {
+  return API.get(`/getTypeColor`, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};
+
+export const getModel = () => {
+  return API.get(`/getTypeModel`, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};
+
+export const getTypeProd = () => {
+  return API.get(`/getTypeProd`, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};
+
+export const getMoney = () => {
+  return API.get(`/getTypeMoney`, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};
+
+export const createClothing = () => {
+  return API.post("/createClothing", body, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};
