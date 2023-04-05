@@ -44,6 +44,51 @@ const Catalogo = ({ products }) => {
     });
   }
 
+  const callOptionFunction = () => {
+    const select = document.getElementById("selectSize");
+    const selectedOption = select.options[select.selectedIndex].value;
+
+    //call your parametric function
+
+    //or call a different function based on the selected option value
+    switch (selectedOption) {
+      case "S":
+        setStock(prodId.modelPerColors[0].clothingSize.size.rows[0]);
+        setSize("S");
+        break;
+      case "M":
+        setStock(prodId.modelPerColors[0].clothingSize.size.rows[1]);
+        setSize("M");
+        break;
+      case "L":
+        setStock(prodId.modelPerColors[0].clothingSize.size.rows[2]);
+        setSize("L");
+        break;
+    }
+  };
+
+  const callOptionFunctionStock = () => {
+    const select = document.getElementById("selectCantidad");
+    const selectedOption = select.options[select.selectedIndex].value;
+
+    //call your parametric function
+
+    //or call a different function based on the selected option value
+    console.log(selectedOption);
+    switch (selectedOption) {
+      case "1":
+        console.log("si");
+        setCantidad(1);
+        break;
+      case "2":
+        setCantidad(2);
+        break;
+      case "3":
+        setCantidad(3);
+        break;
+    }
+  };
+
   return (
     <div className=" bg-white my-2">
       <ToastContainer />
@@ -65,7 +110,6 @@ const Catalogo = ({ products }) => {
               src={data.modelPerColors[0].urlImage}
               className="w-full"
               style={{ height: "62%" }}
-              
             />
 
             <div
@@ -136,6 +180,7 @@ const Catalogo = ({ products }) => {
                         setSize(null);
                         setCantidad(0);
                         setStock(0);
+                        document.getElementById("selectSize").selectedIndex = 0;
                       }}
                     >
                       <path
@@ -306,109 +351,67 @@ const Catalogo = ({ products }) => {
                                   Choose a size
                                 </legend>
                                 <div className="grid grid-cols-4 gap-4">
-                                  <select className="p-2 border w-40 bg-white">
+                                  <select
+                                    className="p-2 border w-40 bg-white"
+                                    id="selectSize"
+                                    onChange={() => callOptionFunction()}
+                                    defaultValue={-1}
+                                  >
+                                    <option value={-1} />
                                     {parseInt(
                                       prodId.modelPerColors[0].clothingSize.size
                                         .rows[0]
                                     ) > 0 ? (
-                                      <option
-                                        onClick={() => {
-                                          setStock(
-                                            prodId.modelPerColors[0]
-                                              .clothingSize.size.rows[0]
-                                          );
-                                          setSize("S");
-                                        }}
-                                      >
-                                        S
-                                      </option>
+                                      <option value={"S"}>S</option>
                                     ) : null}
                                     {parseInt(
                                       prodId.modelPerColors[0].clothingSize.size
                                         .rows[1]
                                     ) > 0 ? (
-                                      <option
-                                        onClick={() => {
-                                          setStock(
-                                            prodId.modelPerColors[0]
-                                              .clothingSize.size.rows[1]
-                                          );
-                                          setSize("M");
-                                        }}
-                                      >
-                                        M
-                                      </option>
+                                      <option value={"M"}>M</option>
                                     ) : null}
                                     {parseInt(
                                       prodId.modelPerColors[0].clothingSize.size
                                         .rows[2]
                                     ) > 0 ? (
-                                      <option
-                                        onClick={() => {
-                                          setStock(
-                                            prodId.modelPerColors[0]
-                                              .clothingSize.size.rows[2]
-                                          );
-                                          setSize("L");
-                                        }}
-                                      >
-                                        L
-                                      </option>
+                                      <option value={"L"}>L</option>
                                     ) : null}
                                   </select>
                                 </div>
                               </fieldset>
                               <div className="mt-4 ">
                                 {parseInt(stock) >= 3 ? (
-                                  <select className="p-2 border w-40 bg-white">
-                                    <option
-                                      onClick={() => {
-                                        setCantidad(1);
-                                      }}
-                                    >
-                                      1
-                                    </option>
-                                    <option
-                                      onClick={() => {
-                                        setCantidad(2);
-                                      }}
-                                    >
-                                      2
-                                    </option>
-                                    <option
-                                      onClick={() => {
-                                        setCantidad(3);
-                                      }}
-                                    >
-                                      3
-                                    </option>
+                                  <select
+                                    className="p-2 border w-40 bg-white"
+                                    id="selectCantidad"
+                                    onChange={() => {
+                                      callOptionFunctionStock();
+                                    }}
+                                  >
+                                    <option value={1}>1</option>
+                                    <option value={2}>2</option>
+                                    <option value={3}>3</option>
                                   </select>
                                 ) : parseInt(stock) == 2 ? (
-                                  <select className="p-2 border w-40 bg-white">
-                                    <option
-                                      onClick={() => {
-                                        setCantidad(1);
-                                      }}
-                                    >
-                                      1
-                                    </option>
-                                    <option
-                                      onClick={() => {
-                                        setCantidad(2);
-                                      }}
-                                    >
-                                      2
-                                    </option>
+                                  <select
+                                    className="p-2 border w-40 bg-white"
+                                    id="selectCantidad"
+                                    onChange={() => {
+                                      callOptionFunctionStock();
+                                    }}
+                                  >
+                                    <option value={1}>1</option>
+                                    <option value={2}>2</option>
                                   </select>
                                 ) : parseInt(stock) == 1 ? (
-                                  <select className="p-2 border w-40 bg-white">
-                                    <option
-                                      onClick={() => {
-                                        setCantidad(1);
-                                      }}
-                                    >
-                                      1
-                                    </option>
+                                  <select
+                                    className="p-2 border w-40 bg-white"
+                                    id="selectCantidad"
+                                    onChange={() => {
+                                      callOptionFunctionStock();
+                                    }}
+                                  >
+                                    <option value={1}>1</option>
                                   </select>
                                 ) : null}
                               </div>
@@ -428,18 +431,9 @@ const Catalogo = ({ products }) => {
                           <a
                             type="submit"
                             className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-black py-3 px-8 text-base font-medium text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                            // href={`/carrito/${prodId._id}`}
                           >
                             Comprar
                           </a>
-                          {/*   <button
-                            type="button"
-                            onClick={() => {
-                              setPreCompra({ cantidad: cantidad, size: size });
-                            }}
-                          >
-                            sii
-                          </button> */}
                         </form>
                       </section>
                     </div>
