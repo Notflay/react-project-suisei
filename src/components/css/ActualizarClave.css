@@ -1,0 +1,121 @@
+.mainbox {
+  height: 80%;
+  background-color: #1e8535;
+  box-shadow: 0px 0px 20px 10px rgba(255, 255, 255, 0.5);
+  margin: auto 0;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.main {
+  text-align: center;
+  display: grid;
+  place-items: center;
+}
+
+.titulo {
+  display: block;
+  margin-top: 50px;
+  text-align: center;
+}
+
+.titulo-content {
+  font-family: monospace;
+  float: left;
+  color: rgb(177, 14, 14);
+  position: relative;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  overflow: hidden;
+  text-shadow: 0px 0px 15px rgb(177, 14, 14);
+}
+.titulo-content span {
+  position: absolute;
+  right: 0;
+  width: 0;
+  background-color: #ffffff;
+  border-left: 1px solid #000000;
+  animation: maquina 3s infinite steps(25);
+}
+
+form {
+  margin-top: 50px;
+  width: 50%;
+}
+form p {
+  text-align: left;
+}
+form input[type=text] {
+  width: 100%;
+  height: 35px;
+  margin-bottom: 20px;
+  padding-left: 15px;
+  border-radius: 0.5rem;
+  border: 3px solid #272626;
+  transition: ease-in-out 0.3s;
+}
+form input[type=submit] {
+  background-color: #000000;
+  color: #ffffff;
+  font-size: 1.2em;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  margin-top: 15px;
+  padding: 10px 30px;
+  border-radius: 0.5em;
+  border: none;
+  transition: 0.5s;
+}
+form input[type=text]:focus {
+  transform: scale(1.2);
+}
+form input[type=submit]:focus {
+  cursor: pointer;
+  letter-spacing: 0.25em;
+  background-color: rgb(177, 14, 14);
+  border: none;
+  box-shadow: 0px 0px 20px 10px rgba(255, 0, 0, 0.5);
+}
+
+@keyframes maquina {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0;
+  }
+}
+@media screen and (max-width: 576px) {
+  .mainbox {
+    background-color: #272626;
+    border-radius: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .titulo {
+    margin-top: 30px;
+  }
+  .titulo-content {
+    color: #ffffff;
+  }
+  .titulo-content span {
+    background-color: #272626;
+  }
+  form {
+    width: 80%;
+  }
+  form input[type=text] {
+    width: 100%;
+  }
+  form p {
+    color: #ffffff;
+  }
+  form input[type=submit] {
+    width: 100%;
+    background-color: rgb(177, 14, 14);
+  }
+}

@@ -46,6 +46,14 @@ export const createUser = (body) => {
   });
 };
 
+export const udpatePassword = (body) => {
+  return API.post("/udpatePassword", body, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};
+
 export const loginUser = (body) => {
   return API.post("/loginUser", body, {
     validateStatus: function (status) {

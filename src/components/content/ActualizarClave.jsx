@@ -1,18 +1,16 @@
 import React from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import "../css/Registrar.css";
-import { useNavigate } from "react-router-dom";
-import { createUser } from "../../services/axios.service";
 
-const Registrar = ({}) => {
+import "../css/ActualizarClave.css";
+import { useNavigate } from "react-router-dom";
+import { udpatePassword } from "../../services/axios.service";
+
+const ActualizarClave = ({}) => {
   const navigate = useNavigate();
 
   async function formData(e) {
     e.preventDefault();
 
-    console.log(e.target[1].value, e.target[2].value);
-
-    createUser({
+    udpatePassword({
       email: e.target[1].value,
       password: e.target[2].value,
     })
@@ -23,24 +21,18 @@ const Registrar = ({}) => {
         console.log(error.message);
       });
 
-    navigate("/login");
+    navigate("/updatePass");
   }
 
   return (
     <>
-      <div className="flex-column bg-dark d-flex align-items-center justify-content-center vh-100">
-        <div className="container-fluid col-lg-6 col-md-8 col-sm-10 mainbox">
-          <div className="flip-card">
-            <div className="flip-card-inner">
-              <div className="flip-card-front">
-                <img src="/logo.png" alt="logo-img" />
-                <p>Estilo es usar lo que te hace sentir bien</p>
-              </div>
-              <div className="flip-card-back">
+      <div className="flex-column bg-light d-flex align-items-center justify-content-center vh-100">
+        <div className="container-fluid col-lg-6 col-md-8 col-sm-10 mainbox bg-secondary">
+
                 <div className="main">
                   <div className="titulo">
                     <h2 className="titulo-content">
-                      Forma parte de Suisei Peru.<span>&#160;</span>
+                      Restablecer Contraseña
                     </h2>
                   </div>
                   <form className="formulario" onSubmit={formData}>
@@ -55,7 +47,7 @@ const Registrar = ({}) => {
                       required
                       placeholder="Email address"
                     />
-                    <p>Escribe tu contraseña:</p>
+                    <p>Escribe tu nueva contraseña:</p>
                     <input
                       id="password"
                       name="password"
@@ -65,16 +57,14 @@ const Registrar = ({}) => {
                       placeholder="Password"
                     />
 
-                    <input type="submit" value="REGISTRARME" />
+                    <input type="submit" value="RESTABLECER" />
                   </form>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
+
     </>
   );
 };
 
-export default Registrar;
+export default ActualizarClave;

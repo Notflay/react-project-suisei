@@ -92,7 +92,7 @@ const Header = ({ changeItem }) => {
               Inicio
             </a>
             {!log ? (
-              <a className="itemsb" href="/registro">
+              <a className="itemsb" href="/login">
                 Hola,
                 <br />
                 Inicia sesión
@@ -129,12 +129,6 @@ const Header = ({ changeItem }) => {
               </div>
             </a>
 
-            <a className="itemsb" href="/login">
-              <div className="flex">
-                <AiOutlineDropbox className="mt-2"></AiOutlineDropbox>
-                <p className="">Iniciar Sesion</p>
-              </div>
-            </a>
           </div>
         </div>
         <div

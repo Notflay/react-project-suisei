@@ -5,8 +5,9 @@ import Content from "./components/Content";
 import Carrito from "./components/content/Carrito";
 
 import Login from "./components/content/Login";
+import ActualizarClave from "./components/content/ActualizarClave";
 import Pruebah from "./components/content/Pruebah";
-import Registrar from "./components/content/Registrar";
+import CrearUsuario from "./components/content/CrearUsuario";
 import Footer from "./components/partials/Footer";
 import Header from "./components/partials/Header";
 import { contCart, getRopa } from "./services/axios.service";
@@ -73,7 +74,7 @@ function App() {
             <Route index element={<Content />} />
           </Routes>
           <Routes>
-            <Route path="/registro" element={<Registrar />} />
+            <Route path="/registro" element={<CrearUsuario />} />
           </Routes>
           <Routes>
             <Route path="/login" element={<Login changeItem={changeItem} />} />
@@ -85,6 +86,10 @@ function App() {
             <Route path="/carrito/:id" element={<Carrito />} />
           </Routes>
           <Routes>
+
+            <Route path="/updatePass" element={<ActualizarClave />} />
+        </Routes>
+        <Routes>
             <Route path="/createprod" element={<FormProducto />} />
           </Routes>
         </main>

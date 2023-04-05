@@ -1,9 +1,10 @@
 import {React,useState} from "react";
-import "../css/Login.css";
+// import 'bootstrap/dist/css/bootstrap.min.css';
+import "../css/CrearUsuario.css";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../../services/axios.service";
+import { createUser } from "../../services/axios.service";
 
-export default function Login({ changeItem }) {
+const CrearUsuario = ({}) => {
 
   const [clicked,setClicked] = useState(false)
 
@@ -12,33 +13,32 @@ export default function Login({ changeItem }) {
     console.log(clicked)
   }
 
-  const navigate = new useNavigate();
+  const navigate = useNavigate();
 
-  async function loginIn(e) {
+  async function formData(e) {
     e.preventDefault();
 
-    loginUser({
+    console.log(e.target[1].value, e.target[2].value);
+
+    createUser({
       email: e.target[1].value,
       password: e.target[2].value,
     })
       .then((response) => {
-        if (response.status === 201) {
-          navigate("/");
-          localStorage.setItem("login", response.data);
-          changeItem();
-        }
+        console.log(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.message);
       });
 
+    navigate("/login");
   }
 
   return (
     <>
       <div className="flex-column bg-dark d-flex align-items-center justify-content-center vh-100">
         <div className="container-fluid col-lg-6 col-md-8 col-sm-10 mainbox">
-          <div className={`flip-card${clicked ? " active" : ""}` }>
+          <div className={`flip-card${clicked ? " active" : ""}`}>
             <div className="flip-card-inner">
               <div className="flip-card-front" onClick={handleClick}>
                 <img src="/logo.png" alt="logo-img" />
@@ -48,10 +48,10 @@ export default function Login({ changeItem }) {
                 <div className="main">
                   <div className="titulo">
                     <h2 className="titulo-content">
-                      Bienvenido a Suisei Peru.<span>&#160;</span>
+                      Forma parte de Suisei Peru.<span>&#160;</span>
                     </h2>
                   </div>
-                  <form className="formulario" onSubmit={loginIn}>
+                  <form className="formulario" onSubmit={formData}>
                     <input type="hidden" name="remember" value="true" />
 
                     <p>Escribe tu correo:</p>
@@ -73,17 +73,7 @@ export default function Login({ changeItem }) {
                       placeholder="Password"
                     />
 
-                    <input type="submit" value="INGRESAR" />
-
-                    <div className="register">
-                      <p>No tienes una cuenta, registrate!!!</p>
-                    </div>
-
-                    <a className="btn-register" href="/registro">REGISTRATE</a>
-                    <br />
-                    <br />
-                    <a className="actualizar" href="/updatePass">Olvidaste tu Contraseña</a>
-
+                    <input type="submit" value="REGISTRARME" />
                   </form>
                 </div>
               </div>
@@ -93,4 +83,6 @@ export default function Login({ changeItem }) {
       </div>
     </>
   );
-}
+};
+
+export default CrearUsuario;
