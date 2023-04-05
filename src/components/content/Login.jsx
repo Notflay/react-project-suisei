@@ -1,16 +1,16 @@
-import {React,useState} from "react";
+import { React, useState } from "react";
+
 import "../css/Login.css";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../services/axios.service";
 
 export default function Login({ changeItem }) {
-
-  const [clicked,setClicked] = useState(false)
+  const [clicked, setClicked] = useState(false);
 
   const handleClick = () => {
-    setClicked(!clicked)
-    console.log(clicked)
-  }
+    setClicked(!clicked);
+    console.log(clicked);
+  };
 
   const navigate = new useNavigate();
 
@@ -31,14 +31,13 @@ export default function Login({ changeItem }) {
       .catch((error) => {
         console.log(error);
       });
-
   }
 
   return (
     <>
       <div className="flex-column bg-dark d-flex align-items-center justify-content-center vh-100">
         <div className="container-fluid col-lg-6 col-md-8 col-sm-10 mainbox">
-          <div className={`flip-card${clicked ? " active" : ""}` }>
+          <div className={`flip-card${clicked ? " active" : ""}`}>
             <div className="flip-card-inner">
               <div className="flip-card-front" onClick={handleClick}>
                 <img src="/logo.png" alt="logo-img" />
@@ -79,11 +78,14 @@ export default function Login({ changeItem }) {
                       <p>No tienes una cuenta, registrate!!!</p>
                     </div>
 
-                    <a className="btn-register" href="/registro">REGISTRATE</a>
+                    <a className="btn-register" href="/registro">
+                      REGISTRATE
+                    </a>
                     <br />
                     <br />
-                    <a className="actualizar" href="/updatePass">Olvidaste tu Contraseña</a>
-
+                    <a className="actualizar" href="/updatePass">
+                      Olvidaste tu Contraseña
+                    </a>
                   </form>
                 </div>
               </div>

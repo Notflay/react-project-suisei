@@ -166,12 +166,6 @@ const Carrito = () => {
     }
   }
 
-  /*   async function getProductsHd() {
-    const response = await getProduct(id);
-    setProduc(response.data);
-    console.log(response.data.modelPerColors[0]);
-  } */
-
   async function getUser() {
     let i = [];
     const response = await getUsuario(id);

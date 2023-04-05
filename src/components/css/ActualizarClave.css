@@ -39,7 +39,7 @@
   border-left: 1px solid #000000;
   animation: maquina 3s infinite steps(25);
 }
-
+/* 
 form {
   margin-top: 50px;
   width: 50%;
@@ -118,4 +118,4 @@ form input[type=submit]:focus {
     width: 100%;
     background-color: rgb(177, 14, 14);
   }
-}
+} */
