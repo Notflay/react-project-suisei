@@ -26,8 +26,8 @@ const ActualizarClave = ({}) => {
 
   return (
     <>
-      <div className="flex-column bg-dark d-flex align-items-center justify-content-center vh-100">
-        <div className="container-fluid col-lg-6 col-md-8 col-sm-10 mainbox">
+      <div className="flex-column bg-light d-flex align-items-center justify-content-center vh-100">
+        <div className="container-fluid col-lg-6 col-md-8 col-sm-10 mainbox bg-secondary">
 
                 <div className="main">
                   <div className="titulo">

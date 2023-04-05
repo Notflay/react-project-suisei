@@ -69,3 +69,75 @@ export const getProduct = (id) => {
     },
   });
 };
+
+export const createCart = (id, body) => {
+  return API.post(`/createCarrito/${id}`, body, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};
+
+export const getUsuario = (id) => {
+  return API.get(`/getUsuario/${id}`, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};
+
+export const deleteCart = (id, body) => {
+  return API.put(`/deletecart/${id}`, body, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};
+
+export const contCart = (id) => {
+  return API.get(`/countCart/${id}`, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};
+
+export const getColors = () => {
+  return API.get(`/getTypeColor`, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};
+
+export const getModel = () => {
+  return API.get(`/getTypeModel`, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};
+
+export const getTypeProd = () => {
+  return API.get(`/getTypeProd`, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};
+
+export const getMoney = () => {
+  return API.get(`/getTypeMoney`, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};
+
+export const createClothing = () => {
+  return API.post("/createClothing", body, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};

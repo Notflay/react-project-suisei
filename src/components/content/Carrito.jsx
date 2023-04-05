@@ -2,7 +2,11 @@ import axios from "axios";
 import React, { useEffect, useState, Fragment, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { AppContext } from "../../App";
-import { getProduct } from "../../services/axios.service";
+import {
+  deleteCart,
+  getProduct,
+  getUsuario,
+} from "../../services/axios.service";
 
 import { loadStripe } from "@stripe/stripe-js";
 import {
@@ -11,6 +15,7 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
+import { toast } from "react-toastify";
 
 const stripePromise = loadStripe(
   "pk_test_51MWLL2L4SPD0MxRcyV9eR8iQv4Jx3NqWCLIuWvPvL58Pjh4IVrP0DoYqjqmxXg69wqkDPhejIVB5iTSciJA7rt8k00jGCqBVto"
@@ -18,14 +23,28 @@ const stripePromise = loadStripe(
 
 const Carrito = () => {
   const { id } = useParams();
-  const [produc, setProduc] = useState(null);
+  const [produc, setProduc] = useState([]);
   const [regions, setRegions] = useState([]);
   const [provincias, setProvincias] = useState([]);
   const [distritos, setDistritos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [total, setTotal] = useState(0);
 
-  const { preCompra } = useContext(AppContext);
+  async function deleteCartObj(objid) {
+    await deleteCart(id, objid)
+      .then((response) => {
+        getUser();
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  }
 
-  const [open, setOpen] = useState(true);
+  const notify = () => {
+    toast.error("Error!", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  };
 
   async function handleSubmit(e, stripeus, elements) {
     try {
@@ -84,19 +103,32 @@ const Carrito = () => {
     return (
       <form
         onSubmit={(e) => handleSubmit(e, stripeus, elements)}
-        className="card cad-body"
+        className="card cad-body h-10 "
       >
-        <div className="form-group">
-          <CardElement className="form-control border h-5" />
+        <div className="form-group p-2 text-2xl h-10 ">
+          <CardElement className="form-control border h-10   " />
         </div>
 
-        <div style={{ padding: "5px", width: "150px" }}>
+        <div
+          style={{ padding: "5px", width: "150px" }}
+          className="mt-2 my-auto"
+        >
           <button
             className="btn btn-success bg-black text-white"
             disabled={!stripeus}
             style={{ width: "399px" }}
             onClick={() => {
-              alert("Comprado exitosamente");
+              const ord =
+                document.getElementById("regionId").options.selectedIndex;
+
+              if (
+                document.getElementById("regionId").options[ord].outerText ===
+                "Cusco"
+              ) {
+                notify();
+              } else {
+                alert("Comprado exitosamente");
+              }
             }}
           >
             Buy
@@ -107,42 +139,82 @@ const Carrito = () => {
   };
 
   async function getProvi(id) {
+    const timestamp = Date.now();
     const proviResponse = await axios.get(
-      `https://api.kaituperu.com/api/Provinces?filter={%22where%22:%20{%22regionId%22:%20%22${id}%22%20}}`
+      `https://api.kaituperu.com/api/Provinces?filter={%22where%22:%20{%22regionId%22:%20%22${id}%22%20}}&_=${timestamp}`
     );
     setProvincias(proviResponse.data);
     setDistritos([]);
   }
 
   async function getDistric(id) {
+    const timestamp = Date.now();
     const distritoResponse = await axios.get(
-      `https://api.kaituperu.com/api/Districts?filter={%22where%22:%20{%22provinceId%22:%20%22${id}%22%20}}`
+      `https://api.kaituperu.com/api/Districts?filter={%22where%22:%20{%22provinceId%22:%20%22${id}%22%20}}&_=${timestamp}`
     );
     setDistritos(distritoResponse.data);
   }
 
   async function getRegions() {
-    const regionsResponse = await axios.get(
-      "https://api.kaituperu.com/api/Regions"
-    );
-    setRegions(regionsResponse.data);
+    try {
+      const response = await fetch("https://api.kaituperu.com/api/Regions");
+      const data = await response.json();
+      setRegions(data);
+    } catch (error) {
+      console.error(error);
+      setError("Hubo un problema al cargar las regiones.");
+    }
   }
 
-  async function getProductsHd() {
+  /*   async function getProductsHd() {
     const response = await getProduct(id);
     setProduc(response.data);
     console.log(response.data.modelPerColors[0]);
+  } */
+
+  async function getUser() {
+    let i = [];
+    const response = await getUsuario(id);
+    let price = 0;
+
+    await Promise.all(
+      response.data.carrito.map(async (data) =>
+        getProduct(data._id)
+          .then((response) => {
+            i.push({
+              product: response.data,
+              talla: data.talla,
+              cantidad: data.cantidad,
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+      )
+    );
+    setTotal(
+      i.reduce(
+        (accumulator, data) =>
+          accumulator +
+          data.product.modelMoneyValueId.costPrice * data.cantidad,
+        0
+      )
+    );
+
+    setProduc(i);
+    setLoading(false);
   }
 
   useEffect(() => {
-    getProductsHd();
+    /*  getProductsHd(); */
     getRegions();
-    console.log(preCompra);
+
+    getUser();
   }, []);
 
   return (
-    <div className="w-7/12 m-auto flex flex-row">
-      <div className="w-1/2 ">
+    <div className="max-w-6xl w-auto m-auto flex lg:flex-row  flex-col">
+      <div className="lg:w-1/2  w-full m-auto p-2">
         <div className="my-7">
           <hr className="w-11/12 my-5" />
           <form>
@@ -196,14 +268,14 @@ const Carrito = () => {
                 className="border rounded-sm w-11/12 h-9 outline-none hover:outline-none bg-white px-2"
                 style={{}}
               >
-                <option value={0} onClick={() => setProvincias([])}>
+                <option key={0} value={0} onClick={() => setProvincias([])}>
                   Selecciona la region
                 </option>
-                {regions.map((reg, key) => (
+                {regions.map((reg) => (
                   <option
+                    key={reg.id}
                     onClick={() => getProvi(reg.id)}
-                    key={key}
-                    value={key + 1}
+                    value={reg.id}
                   >
                     {reg.name}
                   </option>
@@ -221,17 +293,16 @@ const Carrito = () => {
                 className="border rounded-sm w-11/12 h-9 outline-none hover:outline-none bg-white px-2"
                 style={{}}
               >
-                <option value={0} onClick={() => setProvincias([])}>
+                <option key={0} value={0} onClick={() => setDistritos([])}>
                   Selecciona la Provincia
                 </option>
-                {provincias.map((provi, key) => (
+                {provincias.map((provi) => (
                   <option
-                    key={key}
+                    key={provi.id}
                     onClick={() => getDistric(provi.id)}
-                    value={key + 1}
+                    value={provi.id}
                   >
-                    {" "}
-                    {provi.name}{" "}
+                    {provi.name}
                   </option>
                 ))}
               </select>
@@ -288,31 +359,95 @@ const Carrito = () => {
           </form>
         </div>
       </div>
-      <div className="w-1/2 ">
-        <div className="my-7">
+      <div className="lg:w-1/2 w-full mx-auto p-2">
+        <div className="my-7 ">
+          <hr className="w-11/12 my-5" />
+
+          <div className="mb-5">
+            <h2 className="uppercase font-mono text-xl">Informacion de pago</h2>
+          </div>
+
+          {loading ? (
+            <div className="border  shadow rounded-md p-4 max-w-sm w-full ">
+              <div className="animate-pulse flex space-x-4">
+                <div className="flex flex-row w-full">
+                  <div>
+                    <img
+                      src={
+                        "https://api.kaituperu.com/imgs/1623801506383-SIN-CAP-STAY-POSITIVE.jpg"
+                      }
+                      alt="altura prod"
+                      className="w-28"
+                    />
+                  </div>
+                  <div className="grid grid-cols-3 gap-4 w-full">
+                    <div className="h-2 bg-slate-700 rounded col-span-2"></div>
+                    <div className="h-2 bg-slate-700 rounded col-span-2"></div>
+                    <div className="h-2 bg-slate-700 rounded col-span-2"></div>
+
+                    <div className="h-2 bg-slate-700 rounded col-span-2"></div>
+                    <div className="h-2 bg-slate-700 rounded col-span-2"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : produc.length !== 0 ? (
+            <div className="overflow-auto " style={{ maxHeight: "523px" }}>
+              {produc.map((data, key) => {
+                return (
+                  <div key={key}>
+                    <hr className="w-11/12 my-5" />
+                    <div className="flex flex-row my-2 justify-between mx-2">
+                      <div>
+                        <img
+                          src={data.product.modelPerColors[0].urlImage}
+                          alt="altura prod"
+                          className="w-28 p-2"
+                          onClick={() => {
+                            console.log("img");
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <h2 className="font-mono uppercase ">
+                          {data.product.name}
+                        </h2>
+                        <p className="text-sm font-mono">Talla: {data.talla}</p>
+                        <p className="text-sm font-mono">
+                          Cantidad: {data.cantidad}
+                        </p>
+                        <p className="text-sm font-mono">
+                          Color: {data.product.modelPerColors[0].color.tag}
+                        </p>
+                        <p className="text-sm font-mono">
+                          Precio: S/.
+                          {data.product.modelMoneyValueId.costPrice *
+                            data.cantidad}
+                        </p>
+                      </div>
+
+                      <div className="flex flex-row ">
+                        <button
+                          onClick={() => {
+                            deleteCartObj(data.product._id);
+                          }}
+                          className="h-9 mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-black py-3 px-8 text-base font-medium text-white hover:bg-red-700 "
+                        >
+                          Eliminar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : null}
           <hr className="my-5" />
-          <div>
-            <h2>Informacion de pago</h2>
+          <div className="flex flex-row justify-around mb-2">
+            <h3 className="text-2xl">Total</h3>
+            <h3 className="text-2xl">S/. {total}</h3>
           </div>
-          <div className="flex flex-row">
-            <div>
-              {produc ? (
-                <img
-                  src={produc.modelPerColors[0].urlImage}
-                  alt="altura prod"
-                  className="w-28"
-                />
-              ) : null}
-              {/*  <img src={produc} alt="altura prod" className="w-28" /> */}
-            </div>
-            <div>
-              {produc ? <h2>{produc.name}</h2> : null}
-              {/* <h2>{produc.name}</h2> */}
-              <p>Talla: M</p>
-              <p>Cantidad: 1 </p>
-              <p>Color: </p>
-            </div>
-          </div>
+
           <div>
             <Elements stripe={stripePromise}>
               <div>

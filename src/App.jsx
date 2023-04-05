@@ -10,7 +10,8 @@ import Pruebah from "./components/content/Pruebah";
 import CrearUsuario from "./components/content/CrearUsuario";
 import Footer from "./components/partials/Footer";
 import Header from "./components/partials/Header";
-import { getRopa } from "./services/axios.service";
+import { contCart, getRopa } from "./services/axios.service";
+import FormProducto from "./components/content/FormProducto";
 
 export const AppContext = createContext(null);
 
@@ -20,13 +21,27 @@ function App() {
   const [total, setTotal] = useState(0);
   const [bottons, setBottons] = useState(1);
   const [filt, setFilt] = useState(null);
-  const [filtcol, setFiltcol] = useState(null);
+  const [filtcol, setFiltcol] = useState([]);
   const [order, setOrder] = useState(null);
   const [preCompra, setPreCompra] = useState(null);
+  const [log, setLog] = useState(false);
+  const [preVentas, setPreVentas] = useState(0);
 
   useEffect(() => {
     setBottons(Math.ceil(total / 9));
   }, [products]);
+
+  async function changeItem() {
+    if (localStorage.getItem("login")) {
+      await contCart(localStorage.getItem("login")).then((response) => {
+        setPreVentas(response.data.cantidad);
+      });
+      setLog(true);
+    } else {
+      setPreVentas(0);
+      setLog(false);
+    }
+  }
 
   return (
     <AppContext.Provider
@@ -46,10 +61,14 @@ function App() {
         bottons,
         preCompra,
         setPreCompra,
+        log,
+        setLog,
+        preVentas,
+        changeItem,
       }}
     >
       <Router>
-        <Header />
+        <Header changeItem={changeItem} />
         <main>
           <Routes>
             <Route index element={<Content />} />
@@ -58,7 +77,7 @@ function App() {
             <Route path="/registro" element={<CrearUsuario />} />
           </Routes>
           <Routes>
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login changeItem={changeItem} />} />
           </Routes>
           <Routes>
             <Route path="/prueba" element={<Pruebah />} />
@@ -67,7 +86,11 @@ function App() {
             <Route path="/carrito/:id" element={<Carrito />} />
           </Routes>
           <Routes>
+
             <Route path="/updatePass" element={<ActualizarClave />} />
+        </Routes>
+        <Routes>
+            <Route path="/createprod" element={<FormProducto />} />
           </Routes>
         </main>
         <Footer />

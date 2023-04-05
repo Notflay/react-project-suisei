@@ -1,17 +1,32 @@
 import React, { useContext, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { getProduct } from "../../services/axios.service";
+import { createCart, getProduct } from "../../services/axios.service";
 import { AppContext } from "../../App";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Catalogo = ({ products }) => {
-  const { setPreCompra, preCompra } = useContext(AppContext);
-
   const [size, setSize] = useState(null);
   const [cantidad, setCantidad] = useState(0);
 
   const details = useRef(null);
   const [stock, setStock] = useState(0);
   const [prodId, setProdId] = useState();
+  const { setPreCompra, preCompra, log, changeItem } = useContext(AppContext);
+
+  const notify = () => {
+    if (!log) {
+      toast.error("Inicia sesión!", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } else if (size === null || cantidad === 0) {
+      toast.error("Escoje la cantidad!", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } else {
+      pushCart();
+    }
+  };
 
   async function getProd(id) {
     const prod = await getProduct(id);
@@ -19,8 +34,19 @@ const Catalogo = ({ products }) => {
     details.current.classList.toggle("hidden");
   }
 
+  async function pushCart() {
+    await createCart("641800d34054ef3f304fc053", {
+      _id: prodId._id,
+      cantidad: cantidad,
+      talla: size,
+    }).then((response) => {
+      changeItem();
+    });
+  }
+
   return (
     <div className=" bg-white my-2">
+      <ToastContainer />
       <hr className="py-2" />
 
       <div className="grid grid-flow-row-dense grid-cols-3 max-[700px]:grid-cols-1 gap-3 ">
@@ -39,6 +65,7 @@ const Catalogo = ({ products }) => {
               src={data.modelPerColors[0].urlImage}
               className="w-full"
               style={{ height: "62%" }}
+              
             />
 
             <div
@@ -84,7 +111,7 @@ const Catalogo = ({ products }) => {
         ref={details}
         id="detalles"
       >
-        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity md:block"></div>
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity md:block"></div>
         {prodId ? (
           <div className="fixed inset-0 z-10 overflow-y-auto">
             <div className="flex min-h-full items-stretch justify-center text-center md:items-center md:px-2 lg:px-4">
@@ -106,6 +133,9 @@ const Catalogo = ({ products }) => {
                         document
                           .getElementById("detalles")
                           .classList.add("hidden");
+                        setSize(null);
+                        setCantidad(0);
+                        setStock(0);
                       }}
                     >
                       <path
@@ -269,18 +299,6 @@ const Catalogo = ({ products }) => {
                           </div>
 
                           <div className="mt-10">
-                            <div className="flex items-center justify-between">
-                              <h4 className="text-sm font-medium text-gray-900">
-                                Size
-                              </h4>
-                              <a
-                                href="#"
-                                className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                              >
-                                Size guide
-                              </a>
-                            </div>
-
                             {/* SIZE TALLAS */}
                             <div className="flex flex-row">
                               <fieldset className="mt-4 w-44">
@@ -398,27 +416,30 @@ const Catalogo = ({ products }) => {
                           </div>
                           <div className="mt-2">{prodId.description}</div>
                           <button
-                            type="submit"
-                            className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-black py-3 px-8 text-base font-medium text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            type="button"
+                            className="mt-6 flex w-full items-center  justify-center rounded-md border border-transparent bg-black py-3 px-8 text-base font-medium text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            onClick={() => {
+                              notify();
+                            }}
                           >
                             Añadir a la bolsa
                           </button>
+
                           <a
                             type="submit"
                             className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-black py-3 px-8 text-base font-medium text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                            href={`/carrito/${prodId._id}`}
-                            onClick={() => {}}
+                            // href={`/carrito/${prodId._id}`}
                           >
                             Comprar
                           </a>
-                          <button
+                          {/*   <button
                             type="button"
                             onClick={() => {
                               setPreCompra({ cantidad: cantidad, size: size });
                             }}
                           >
                             sii
-                          </button>
+                          </button> */}
                         </form>
                       </section>
                     </div>

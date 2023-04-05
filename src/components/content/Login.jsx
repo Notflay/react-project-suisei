@@ -1,39 +1,46 @@
-import React from "react";
+import {React,useState} from "react";
 import "../css/Login.css";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../services/axios.service";
 
-export default function Login() {
+export default function Login({ changeItem }) {
+
+  const [clicked,setClicked] = useState(false)
+
+  const handleClick = () => {
+    setClicked(!clicked)
+    console.log(clicked)
+  }
+
   const navigate = new useNavigate();
 
   async function loginIn(e) {
     e.preventDefault();
-    console.log(e.target[1].value);
-    console.log(e.target[2].value);
-    await loginUser({
+
+    loginUser({
       email: e.target[1].value,
       password: e.target[2].value,
     })
       .then((response) => {
         if (response.status === 201) {
           navigate("/");
-          localStorage.setItem("login", true);
-        } else {
-          alert("Usuario/Contraseña incorrecta");
+          localStorage.setItem("login", response.data);
+          changeItem();
         }
       })
-      .catch((response) => {
-        alert("Usuario/Contraseña incorrecta");
+      .catch((error) => {
+        console.log(error);
       });
+
   }
 
   return (
     <>
       <div className="flex-column bg-dark d-flex align-items-center justify-content-center vh-100">
         <div className="container-fluid col-lg-6 col-md-8 col-sm-10 mainbox">
-          <div className="flip-card">
+          <div className={`flip-card${clicked ? " active" : ""}` }>
             <div className="flip-card-inner">
-              <div className="flip-card-front">
+              <div className="flip-card-front" onClick={handleClick}>
                 <img src="/logo.png" alt="logo-img" />
                 <p>Estilo es usar lo que te hace sentir bien</p>
               </div>

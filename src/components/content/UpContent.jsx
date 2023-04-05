@@ -48,7 +48,7 @@ const UpContent = ({ setPage, getRops }) => {
             tabIndex={0}
             id={`btn${i}`}
             aria-current="page"
-            className={`cursor-pointer border relative z-10 hidden items-center px-4 py-2  text-sm font-medium 
+            className={`cursor-pointer border relative z-10 hidden items-center px-4 py-2 w-px  text-sm font-medium 
             text-gray-500 focus:z-20 hover:bg-gray-50}`}
             onClick={() => {
               handleClick(i);
@@ -63,7 +63,7 @@ const UpContent = ({ setPage, getRops }) => {
             <a
               tabIndex={0}
               aria-current="page"
-              className={`cursor-pointer border relative z-10 inline-flex items-center px-4 py-2 max-[700px]:w-1 text-sm font-medium 
+              className={`cursor-pointer border relative z-10 inline-flex items-center px-4 py-2 max-[700px]:w-1 w-px text-sm font-medium 
               text-gray-500 focus:z-20 `}
               onClick={() => {}}
             >
@@ -77,7 +77,7 @@ const UpContent = ({ setPage, getRops }) => {
             id={`btn${i}`}
             tabIndex={0}
             aria-current="page"
-            className={`cursor-pointer border relative z-10 inline-flex items-center max-[700px]:w-1 px-4 py-2 text-sm font-medium 
+            className={`cursor-pointer border relative z-10 inline-flex items-center max-[700px]:w-1 px-4 py-2 text-sm w-px font-medium 
             text-gray-500 focus:z-20 hover:bg-gray-50}  ${
               activeBtn === i && "bg-red-50 border-red-300"
             }`}
@@ -217,7 +217,10 @@ const UpContent = ({ setPage, getRops }) => {
             Páginas:
           </span>
         )}
-        <div className="lg:flex items-center justify-between bg-white px-4 pb-6 sm:px-6">
+        <div
+          className="lg:flex items-center justify-between bg-white px-4 pb-6 sm:px-6"
+          style={{ width: "600px" }}
+        >
           <div className="flex flex-1 justify-between sm:hidden">
             <a
               href="#"

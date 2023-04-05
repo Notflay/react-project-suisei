@@ -1,10 +1,18 @@
-import React from "react";
+import {React,useState} from "react";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import "../css/CrearUsuario.css";
 import { useNavigate } from "react-router-dom";
 import { createUser } from "../../services/axios.service";
 
 const CrearUsuario = ({}) => {
+
+  const [clicked,setClicked] = useState(false)
+
+  const handleClick = () => {
+    setClicked(!clicked)
+    console.log(clicked)
+  }
+
   const navigate = useNavigate();
 
   async function formData(e) {
@@ -30,9 +38,9 @@ const CrearUsuario = ({}) => {
     <>
       <div className="flex-column bg-dark d-flex align-items-center justify-content-center vh-100">
         <div className="container-fluid col-lg-6 col-md-8 col-sm-10 mainbox">
-          <div className="flip-card">
+          <div className={`flip-card${clicked ? " active" : ""}`}>
             <div className="flip-card-inner">
-              <div className="flip-card-front">
+              <div className="flip-card-front" onClick={handleClick}>
                 <img src="/logo.png" alt="logo-img" />
                 <p>Estilo es usar lo que te hace sentir bien</p>
               </div>
