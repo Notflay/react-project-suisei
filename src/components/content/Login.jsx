@@ -34,8 +34,8 @@ export default function Login({ changeItem }) {
         <div className="w-full max-w-md space-y-8">
           <div>
             <img
-              className="mx-auto h-12 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+              className="mx-auto  w-24 "
+              src="/logo.png"
               alt="Your Company"
             />
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
@@ -94,7 +94,7 @@ export default function Login({ changeItem }) {
               <div class="text-sm">
                 <a
                   href="/updatePass"
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
+                  className="font-medium text-slate-800 hover:text-slate-700"
                 >
                   Forgot your password?
                 </a>
@@ -102,7 +102,7 @@ export default function Login({ changeItem }) {
 
               <div class="text-sm">
                 <a
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
+                  className="font-medium text-slate-800 hover:text-slate-700"
                   href="/registro"
                 >
                   REGISTRATE
@@ -113,11 +113,11 @@ export default function Login({ changeItem }) {
             <div>
               <button
                 type="submit"
-                class="group relative flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                class="group relative flex w-full justify-center rounded-md bg-slate-800 px-3 py-2 text-sm font-semibold text-white hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 <span class="absolute inset-y-0 left-0 flex items-center pl-3">
                   <svg
-                    class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+                    class="h-5 w-5 text-red-500 group-hover:text-slate-800"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                     aria-hidden="true"
