@@ -357,7 +357,7 @@ const Catalogo = ({ products }) => {
                                     onChange={() => callOptionFunction()}
                                     defaultValue={-1}
                                   >
-                                    <option value={-1} />
+                                    <option value={-1}>Talla</option>
                                     {parseInt(
                                       prodId.modelPerColors[0].clothingSize.size
                                         .rows[0]
@@ -387,7 +387,9 @@ const Catalogo = ({ products }) => {
                                     onChange={() => {
                                       callOptionFunctionStock();
                                     }}
+                                    defaultValue={-1}
                                   >
+                                    <option value={-1}>Cantidad</option>
                                     <option value={1}>1</option>
                                     <option value={2}>2</option>
                                     <option value={3}>3</option>
@@ -399,7 +401,9 @@ const Catalogo = ({ products }) => {
                                     onChange={() => {
                                       callOptionFunctionStock();
                                     }}
+                                    defaultValue={-1}
                                   >
+                                    <option value={-1}>Cantidad</option>
                                     <option value={1}>1</option>
                                     <option value={2}>2</option>
                                   </select>
@@ -410,7 +414,9 @@ const Catalogo = ({ products }) => {
                                     onChange={() => {
                                       callOptionFunctionStock();
                                     }}
+                                    defaultValue={-1}
                                   >
+                                    <option value={-1}>Cantidad</option>
                                     <option value={1}>1</option>
                                   </select>
                                 ) : null}
