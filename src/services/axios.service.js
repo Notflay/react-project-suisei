@@ -134,8 +134,24 @@ export const getMoney = () => {
   });
 };
 
-export const createClothing = () => {
+export const createClothing = (body) => {
   return API.post("/createClothing", body, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};
+
+export const pageApi = (body) => {
+  return API.post("/pay", body, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};
+
+export const createCom = (body) => {
+  return API.post("/createCom", body, {
     validateStatus: function (status) {
       return status < 500;
     },

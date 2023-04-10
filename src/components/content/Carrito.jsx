@@ -1,11 +1,19 @@
 import axios from "axios";
-import React, { useEffect, useState, Fragment, useContext } from "react";
+import React, {
+  useEffect,
+  useState,
+  Fragment,
+  useContext,
+  useRef,
+} from "react";
 import { useParams } from "react-router-dom";
 import { AppContext } from "../../App";
 import {
+  createCom,
   deleteCart,
   getProduct,
   getUsuario,
+  pageApi,
 } from "../../services/axios.service";
 
 import { loadStripe } from "@stripe/stripe-js";
@@ -15,7 +23,8 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import { jsPDF } from "jspdf";
 
 const stripePromise = loadStripe(
   "pk_test_51MWLL2L4SPD0MxRcyV9eR8iQv4Jx3NqWCLIuWvPvL58Pjh4IVrP0DoYqjqmxXg69wqkDPhejIVB5iTSciJA7rt8k00jGCqBVto"
@@ -29,6 +38,8 @@ const Carrito = () => {
   const [distritos, setDistritos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
+  const form = useRef(null);
+  const [clienteSecret, setClienteSecret] = useState("");
 
   async function deleteCartObj(objid) {
     await deleteCart(id, objid)
@@ -40,8 +51,8 @@ const Carrito = () => {
       });
   }
 
-  const notify = () => {
-    toast.error("Error!", {
+  const notify = (data) => {
+    toast.error(data, {
       position: toast.POSITION.TOP_RIGHT,
     });
   };
@@ -49,44 +60,143 @@ const Carrito = () => {
   async function handleSubmit(e, stripeus, elements) {
     try {
       e.preventDefault();
-      const vaOne = parseInt(document.getElementById("regionId").value);
-      const vaTwo = parseInt(document.getElementById("provinciaid").value);
-      const vaThre = parseInt(document.getElementById("distritoId").value);
-      const direc = document.getElementById("direccionId").value;
-      const telef = document.getElementById("telefoID").value;
-      const compId = parseInt(document.getElementById("comprobanteId").value);
+
+      const response = await getUsuario(id);
+      const carrito = response.data.carrito;
+
+      const selectCom = form.current[2];
+      const comIndex = selectCom.selectedIndex;
+      const tipoComprobante = selectCom[comIndex].value;
+
+      const selectDoc = form.current[3];
+      const comDoc = selectDoc.selectedIndex;
+      const documentoIde = selectDoc[comDoc].value;
+
+      const selectReg = form.current[5];
+      const regIndex = selectReg.selectedIndex;
+      const region = selectReg[regIndex].outerText;
+
+      const selectProv = form.current[6];
+      const provIndex = selectProv.selectedIndex;
+      const provincia = selectProv[provIndex].outerText;
+
+      const selectDist = form.current[7];
+      const distIndex = selectDist.selectedIndex;
+      const distrito = selectDist[distIndex].outerText;
+
       if (
-        (vaOne === 0) |
-        (vaTwo === 0) |
-        (vaThre === 0) |
-        (direc.trim() === "") |
-        (telef.length < 9) |
-        (compId === 0)
+        (form.current[0].value === "") |
+        (form.current[1].value === "") |
+        (form.current[4].length < 9) |
+        (regIndex === 0) |
+        (provIndex === 0) |
+        (distIndex === 0) |
+        (form.current[8].value === "") |
+        (form.current[9].value === "") |
+        (form.current[10].value === "")
       ) {
-        alert("No has terminado de llenar los datos");
+        notify("Te falta completar datos!");
+      } else if (
+        form.current[5][form.current[5].selectedIndex].outerText === "Ayacucho"
+      ) {
+        notify("No contamos con envio para esta zona :(");
       } else {
         const { error, paymentMethod } = await stripeus.createPaymentMethod({
           type: "card",
           card: elements.getElement(CardElement),
         });
-        const cookies = new Cookies();
-        const idUser = cookies.get("id");
 
         if (!error) {
           const { id } = paymentMethod;
-          pageApi({ id, amount: subTotal })
-            .then(async (response) => {})
+
+          const newComprobante = {
+            clientId: response.data._id,
+            nombre: form.current[0].value,
+            apellido: form.current[1].value,
+            tipoComprobante,
+            documentoIde,
+            numDocumento: form.current[4].value,
+            region,
+            provincia,
+            distrito,
+            direccion: form.current[8].value,
+            referencia: form.current[9].value,
+            telefono: form.current[10].value,
+            total,
+            tipoTarjeta: "Visa",
+            productId: carrito,
+          };
+
+          /* pageApi({ id, amount: total, description: form.current[0].value })
+            .then((response) => {})
             .catch((error) => {
               console.log(error);
-            })
-            .finally(async () => {
-              if (idUser !== undefined) {
-                console.log("diferente");
-                await deleteAllCt(idUser).then(() => getVentasBooks());
-              }
-            });
+            }); */
+
+          await Promise.all([
+            pageApi({
+              id,
+              amount: total,
+              description: form.current[0].value,
+            }),
+            createCom(newComprobante),
+          ]);
           alert(`Compra exitosa. Espera tu producto`);
-          return navigate("/");
+
+          const doc = new jsPDF();
+
+          // Título
+          doc.setFontSize(14);
+          doc.text("BOLETA DE VENTA", 20, 20);
+
+          // Datos del cliente
+          doc.setFontSize(12);
+          doc.text("Cliente:", 20, 30);
+          doc.text(
+            `${newComprobante.nombre} ${newComprobante.apellido}`,
+            45,
+            30
+          );
+
+          doc.text("Dirección:", 20, 37);
+          doc.text(`${newComprobante.direccion}`, 45, 37);
+
+          doc.text("Distrito:", 20, 44);
+          doc.text(`${newComprobante.distrito}`, 45, 44);
+
+          // Línea horizontal
+          doc.setLineWidth(0.1);
+          doc.line(20, 50, 180, 50);
+
+          // Detalles de la compra
+          doc.setFontSize(12);
+          doc.text("Descripción", 20, 60);
+          doc.text("Cantidad", 100, 60);
+          doc.text("Precio", 130, 60);
+
+          let altura = 67;
+          for (let i = 0; i < produc.length; i++) {
+            altura = altura + 7;
+            doc.text(`${produc[i].product.name}`, 20, altura);
+            doc.text(`${produc[i].cantidad}`, 100, altura);
+            doc.text(
+              `S/ ${produc[i].product.modelMoneyValueId.costPrice.toFixed(2)}`,
+              130,
+              altura
+            );
+          }
+
+          // Línea horizontal
+          doc.setLineWidth(0.1);
+          doc.line(20, altura + 7, 180, altura + 7);
+
+          // Total
+          doc.text("Total:", 100, altura + 14);
+          doc.text(`S/ ${newComprobante.total.toFixed(2)}`, 130, altura + 14);
+
+          doc.save("boleta.pdf");
+
+          /*      return navigate("/"); */
         } else {
           alert(`${error.message}`);
         }
@@ -96,7 +206,7 @@ const Carrito = () => {
     }
   }
 
-  const CheckForm = () => {
+  const CheckOutForm = () => {
     const stripeus = useStripe();
     const elements = useElements();
 
@@ -117,19 +227,8 @@ const Carrito = () => {
             className="btn btn-success bg-black text-white"
             disabled={!stripeus}
             style={{ width: "399px" }}
-            onClick={() => {
-              const ord =
-                document.getElementById("regionId").options.selectedIndex;
-
-              if (
-                document.getElementById("regionId").options[ord].outerText ===
-                "Cusco"
-              ) {
-                notify();
-              } else {
-                alert("Comprado exitosamente");
-              }
-            }}
+            type="submit"
+            onClick={() => {}}
           >
             Buy
           </button>
@@ -199,19 +298,38 @@ const Carrito = () => {
     setLoading(false);
   }
 
-  useEffect(() => {
-    /*  getProductsHd(); */
-    getRegions();
+  async function changeSelectReg() {
+    try {
+      const regions = document.getElementById("regionId");
+      const index = regions.selectedIndex;
+      getProvi(regions[index].value);
+    } catch (error) {
+      res.status(501).send(error.message);
+    }
+  }
 
+  async function changeSelectProv() {
+    try {
+      const provs = document.getElementById("provinciaId");
+      const index = provs.selectedIndex;
+      getDistric(provs[index].value);
+    } catch (error) {
+      res.status(501).send(error.message);
+    }
+  }
+
+  useEffect(() => {
+    getRegions();
     getUser();
   }, []);
 
   return (
     <div className="max-w-6xl w-auto m-auto flex lg:flex-row  flex-col">
+      <ToastContainer />
       <div className="lg:w-1/2  w-full m-auto p-2">
         <div className="my-7">
           <hr className="w-11/12 my-5" />
-          <form>
+          <form ref={form}>
             <div className="my-2">
               <label>Nombres</label>
             </div>
@@ -234,7 +352,10 @@ const Carrito = () => {
               <label>Comprobante de Pago</label>
             </div>
             <div>
-              <select className="border rounded-sm w-11/12 h-9 outline-none bg-white px-2">
+              <select
+                className="border rounded-sm w-11/12 h-9 outline-none bg-white px-2"
+                id="comprobanteId"
+              >
                 <option>Boleta</option>
                 <option>Factura</option>
               </select>
@@ -260,42 +381,33 @@ const Carrito = () => {
                 id="regionId"
                 name="regionId"
                 className="border rounded-sm w-11/12 h-9 outline-none hover:outline-none bg-white px-2"
-                style={{}}
+                onChange={changeSelectReg}
               >
                 <option key={0} value={0} onClick={() => setProvincias([])}>
                   Selecciona la region
                 </option>
                 {regions.map((reg) => (
-                  <option
-                    key={reg.id}
-                    onClick={() => getProvi(reg.id)}
-                    value={reg.id}
-                  >
+                  <option key={reg.id} value={reg.id}>
                     {reg.name}
                   </option>
                 ))}
               </select>
             </div>
-
             <div className="my-2">
               <label>Provincia</label>
             </div>
             <div className="my-2">
               <select
-                id="regionId"
-                name="regionId"
+                id="provinciaId"
+                name="provinciaId"
                 className="border rounded-sm w-11/12 h-9 outline-none hover:outline-none bg-white px-2"
-                style={{}}
+                onChange={changeSelectProv}
               >
                 <option key={0} value={0} onClick={() => setDistritos([])}>
                   Selecciona la Provincia
                 </option>
                 {provincias.map((provi) => (
-                  <option
-                    key={provi.id}
-                    onClick={() => getDistric(provi.id)}
-                    value={provi.id}
-                  >
+                  <option key={provi.id} value={provi.id}>
                     {provi.name}
                   </option>
                 ))}
@@ -307,8 +419,8 @@ const Carrito = () => {
             </div>
             <div className="my-2">
               <select
-                id="regionId"
-                name="regionId"
+                id="distritoId"
+                name="distritoId"
                 className="border rounded-sm w-11/12 h-9 outline-none hover:outline-none bg-white px-2"
                 style={{}}
               >
@@ -330,6 +442,7 @@ const Carrito = () => {
               <input
                 type={"text"}
                 className="border rounded-sm w-11/12 h-9 outline-none hover:border-blue-400 px-2"
+                id="direccionId"
               />
             </div>
             <div className="my-2">
@@ -348,6 +461,7 @@ const Carrito = () => {
               <input
                 type={"number"}
                 className="border rounded-sm w-11/12 h-9 outline-none hover:border-blue-400 px-2"
+                id="telefoID"
               />
             </div>
           </form>
@@ -414,9 +528,11 @@ const Carrito = () => {
                           Color: {data.product.modelPerColors[0].color.tag}
                         </p>
                         <p className="text-sm font-mono">
-                          Precio: S/.
-                          {data.product.modelMoneyValueId.costPrice *
-                            data.cantidad}
+                          Precio: S/
+                          {(
+                            data.product.modelMoneyValueId.costPrice *
+                            data.cantidad
+                          ).toFixed(2)}
                         </p>
                       </div>
 
@@ -439,7 +555,7 @@ const Carrito = () => {
           <hr className="my-5" />
           <div className="flex flex-row justify-around mb-2">
             <h3 className="text-2xl">Total</h3>
-            <h3 className="text-2xl">S/. {total}</h3>
+            <h3 className="text-2xl">S/ {total.toFixed(2)}</h3>
           </div>
 
           <div>
@@ -448,7 +564,7 @@ const Carrito = () => {
                 <div className="row">
                   <div className="col-md-4 offset-md-4">
                     {" "}
-                    <CheckForm />
+                    <CheckOutForm />
                   </div>
                 </div>
               </div>

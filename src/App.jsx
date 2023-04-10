@@ -12,6 +12,7 @@ import Footer from "./components/partials/Footer";
 import Header from "./components/partials/Header";
 import { contCart, getRopa } from "./services/axios.service";
 import FormProducto from "./components/content/FormProducto";
+import Hola from "./components/content/Hola";
 
 export const AppContext = createContext(null);
 
@@ -86,10 +87,12 @@ function App() {
             <Route path="/carrito/:id" element={<Carrito />} />
           </Routes>
           <Routes>
-
             <Route path="/updatePass" element={<ActualizarClave />} />
-        </Routes>
-        <Routes>
+          </Routes>
+          <Routes>
+            <Route path="/hola" element={<Hola />} />
+          </Routes>
+          <Routes>
             <Route path="/createprod" element={<FormProducto />} />
           </Routes>
         </main>

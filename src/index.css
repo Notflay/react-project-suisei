@@ -15,7 +15,7 @@
     rounded-md block lg:inline-block lg:mt-0 mr-4 hover:text-red-700 !important
   }
   
-  .item sb {
+  .itemsb {
     @apply text-xl px-3 py-2 font-sans
     rounded-md block mt-4 lg:inline-block lg:mt-0 mr-4 hover:text-red-700 !important
   }
