@@ -43,6 +43,10 @@ function App() {
       setLog(false);
     }
   }
+  function getValidationsUser() {
+    const item = localStorage.getItem("login");
+    return item;
+  }
 
   return (
     <AppContext.Provider
@@ -66,10 +70,14 @@ function App() {
         setLog,
         preVentas,
         changeItem,
+        getValidationsUser,
       }}
     >
       <Router>
-        <Header changeItem={changeItem} />
+        <Header
+          changeItem={changeItem}
+          getValidationsUser={getValidationsUser}
+        />
         <main>
           <Routes>
             <Route index element={<Content />} />

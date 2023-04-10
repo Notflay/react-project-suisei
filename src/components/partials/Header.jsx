@@ -10,7 +10,7 @@ import { AppContext } from "../../App";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Header = ({ changeItem }) => {
+const Header = ({ changeItem, getValidationsUser }) => {
   const { toggle, setToggle, log, preVentas } = useContext(AppContext);
 
   const notify = () => {
@@ -23,11 +23,6 @@ const Header = ({ changeItem }) => {
     let menu = document.getElementById("menu");
     menu.classList.toggle("hidden");
     setToggle(!toggle);
-  }
-
-  function getValidationsUser() {
-    const item = localStorage.getItem("login");
-    return item;
   }
 
   useEffect(() => {

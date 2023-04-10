@@ -12,7 +12,8 @@ const Catalogo = ({ products }) => {
   const details = useRef(null);
   const [stock, setStock] = useState(0);
   const [prodId, setProdId] = useState();
-  const { setPreCompra, preCompra, log, changeItem } = useContext(AppContext);
+  const { setPreCompra, preCompra, log, changeItem, getValidationsUser } =
+    useContext(AppContext);
 
   const notify = () => {
     if (!log) {
@@ -35,7 +36,7 @@ const Catalogo = ({ products }) => {
   }
 
   async function pushCart() {
-    await createCart("641800d34054ef3f304fc053", {
+    await createCart(`${getValidationsUser()}`, {
       _id: prodId._id,
       cantidad: cantidad,
       talla: size,
@@ -77,7 +78,6 @@ const Catalogo = ({ products }) => {
     console.log(selectedOption);
     switch (selectedOption) {
       case "1":
-        console.log("si");
         setCantidad(1);
         break;
       case "2":
