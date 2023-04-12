@@ -157,3 +157,11 @@ export const createCom = (body) => {
     },
   });
 };
+
+export const newProduct = (body) => {
+  return API.post("/newProduct", body, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};

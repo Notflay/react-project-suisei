@@ -6,7 +6,9 @@ import {
   getModel,
   getMoney,
   getTypeProd,
+  newProduct,
 } from "../../services/axios.service";
+import { uploadFile } from "../../firebase/config";
 
 const FormProducto = () => {
   const [colores, setColores] = useState([]);
@@ -23,6 +25,43 @@ const FormProducto = () => {
     );
   }
 
+  async function HandleImage(e) {
+    const result = await uploadFile(e);
+    return result;
+  }
+
+  async function submitProduct(e) {
+    e.preventDefault();
+
+    const producto = {
+      name: e.target[0].value,
+      description: e.target[1].value,
+      isObservationVisible: true,
+      titleObservation: "",
+      isPack: false,
+      productId: e.target[2].value,
+      modelStatId: e.target[3].value,
+      modelMoneyValueId: e.target[4].value,
+      modelPerColors: [
+        {
+          urlImage: await HandleImage(e.target[5].files[0]),
+          name: e.target[0].value,
+          gallery: [await HandleImage(e.target[5].files[0])],
+          modelProductId: e.target[2].value,
+          color: e.target[6].value,
+          clothingSize: {
+            s: e.target[7].value,
+            m: e.target[8].value,
+            l: e.target[9].value,
+          },
+        },
+      ],
+    };
+
+    console.log(producto);
+    newProduct(producto);
+  }
+
   useEffect(() => {
     getDatos();
   }, []);
@@ -30,7 +69,7 @@ const FormProducto = () => {
   return (
     <div className="w-auto max-w-5xl mx-auto my-7">
       <h1>Creacion de producto</h1>
-      <form className="">
+      <form className="" onSubmit={submitProduct}>
         <div className="my-2">
           <label>Nombre</label>
         </div>
@@ -87,7 +126,6 @@ const FormProducto = () => {
         <div>
           <input
             type={"file"}
-            accept="image/png,image/jpeg"
             name="urlImage"
             className="border rounded-sm w-3/5 h-9 outline-none hover:border-blue-400 px-2"
           />
@@ -126,6 +164,9 @@ const FormProducto = () => {
           name="stock-S"
           className="border rounded-sm w-3/5 h-9 outline-none hover:border-blue-400 px-2"
         />
+        <button className="border bg-slate-300 rounded-sm w-3/5 h-9 outline-none hover:border-blue-400 px-2 my-2">
+          Crear
+        </button>
       </form>
     </div>
   );
