@@ -165,3 +165,27 @@ export const newProduct = (body) => {
     },
   });
 };
+
+export const searchForTitle = (id, body) => {
+  return API.post(`/searchForTitle/${id}`, body, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};
+
+export const updateEstadoProd = (id, body) => {
+  return API.post(`/updEstadoProd/${id}`, body, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};
+
+export const reporteMensual = () => {
+  return API.get("/reporteVentas", {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+};

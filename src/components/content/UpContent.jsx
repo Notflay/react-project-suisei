@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { TfiAngleDown, TfiAngleUp } from "react-icons/tfi";
 import { AppContext } from "../../App";
 
-const UpContent = ({ setPage, getRops }) => {
+const UpContent = ({ setPage }) => {
   const [actDrop, setActDrop] = useState(false); //
   const first = useRef(null);
   const lione = useRef(null);
@@ -11,7 +11,7 @@ const UpContent = ({ setPage, getRops }) => {
   const [lipric, setLipric] = useState("Recomendados");
   const [orden, setOrden] = useState(1);
 
-  const { bottons, products, setProducts, setOrder, filt, filtcol } =
+  const { bottons, products, setProducts, setOrder, filt, filtcol, getRops } =
     useContext(AppContext);
 
   let num = bottons;

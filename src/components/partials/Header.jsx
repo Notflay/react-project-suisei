@@ -9,9 +9,17 @@ import { FaSearch } from "react-icons/fa";
 import { AppContext } from "../../App";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { reporteMensual, searchForTitle } from "../../services/axios.service";
+import { useRef } from "react";
+import { jsPDF } from "jspdf";
+
+import "jspdf-autotable";
 
 const Header = ({ changeItem, getValidationsUser }) => {
-  const { toggle, setToggle, log, preVentas } = useContext(AppContext);
+  const { toggle, setToggle, log, preVentas, getRops, getUser, carrito, rol } =
+    useContext(AppContext);
+
+  const valueSearch = useRef(null);
 
   const notify = () => {
     toast.error("Inicia sesión!", {
@@ -23,6 +31,55 @@ const Header = ({ changeItem, getValidationsUser }) => {
     let menu = document.getElementById("menu");
     menu.classList.toggle("hidden");
     setToggle(!toggle);
+  }
+
+  async function searchTitle(title) {
+    const prods = await searchForTitle(title);
+  }
+
+  function openCart() {
+    carrito.current.classList.toggle("hidden");
+    getUser();
+  }
+
+  async function generarReporte() {
+    const datos = await reporteMensual();
+    const comprobantes = datos.data;
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text("Reporte de ventas", 10, 10);
+
+    const data = [
+      [
+        "Cliente",
+        "Tipo de Comprobante",
+        "Documento Identidad",
+        "Número Documento",
+        "Total",
+      ],
+      ...comprobantes.map((venta) => [
+        `${venta.nombres.nombre} ${venta.nombres.apellido}`,
+        venta.tipoComprobante,
+        venta.documentoIde,
+        venta.numDocumento,
+        venta.total,
+      ]),
+    ];
+
+    const total = data
+      .slice(1)
+      .reduce((acc, current) => acc + Number(current[4]), 0);
+
+    const totalRow = ["", "", "", "Total:", total.toFixed(2)];
+
+    data.push(totalRow);
+
+    doc.autoTable({
+      head: [data[0]],
+      body: data.slice(1),
+    });
+    doc.save("reporte.pdf");
   }
 
   useEffect(() => {
@@ -105,12 +162,13 @@ const Header = ({ changeItem, getValidationsUser }) => {
             )}
             <a
               className="itemsb"
-              href={
+              /* href={
                 getValidationsUser() !== null &&
                 `/carrito/${getValidationsUser()}`
-              }
+              } */
+
               onClick={() => {
-                getValidationsUser() === null && notify();
+                getValidationsUser() === null ? notify() : openCart();
               }}
             >
               <div className="flex">
@@ -123,6 +181,22 @@ const Header = ({ changeItem, getValidationsUser }) => {
                 )}
               </div>
             </a>
+            {rol == "admin" && (
+              <a
+                className="itemsb"
+                /* href={
+                  getValidationsUser() !== null &&
+                  `/carrito/${getValidationsUser()}`
+                } */
+              >
+                <button
+                  onClick={generarReporte}
+                  className="mt-6 flex w-full items-center  justify-center rounded-md border border-transparent bg-black py-3 px-8 text-base font-medium text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                >
+                  Generar reporte de ventas
+                </button>
+              </a>
+            )}
           </div>
         </div>
         <div
@@ -149,6 +223,7 @@ const Header = ({ changeItem, getValidationsUser }) => {
               letterSpacing: ".2px",
               textAlign: "left",
             }}
+            ref={valueSearch}
             placeholder="Buscar en Suisei.com"
           ></input>
           <div
@@ -157,6 +232,12 @@ const Header = ({ changeItem, getValidationsUser }) => {
               marginTop: "",
               textAlign: "center",
               cursor: "pointer",
+            }}
+            onClick={() => {
+              if (valueSearch.current.value.length > 1) {
+                console.log(valueSearch.current.value);
+                getRops(1, null, [], null, valueSearch.current.value);
+              }
             }}
           >
             <div

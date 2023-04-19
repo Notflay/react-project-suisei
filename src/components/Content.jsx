@@ -1,13 +1,15 @@
 import axios from "axios";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../App";
-import { getColFilt, getRopa, getRopFilt } from "../services/axios.service";
+
 import Catalogo from "./content/Catalogo";
 
 import Filtrado from "./content/Filtrado";
 import UpContent from "./content/UpContent";
+import MiniCarrito from "./content/MiniCarrito";
+import { getProduct, getUsuario } from "../services/axios.service";
 
-const Content = () => {
+const Content = ({ carrito }) => {
   const {
     toggle,
     setToggle,
@@ -21,71 +23,10 @@ const Content = () => {
     setFiltcol,
     setOrder,
     log,
+    setFiltName,
+    filtName,
+    getRops,
   } = useContext(AppContext);
-
-  const orderProduct = (products, ord) => {
-    if (ord === true) {
-      return products.sort(function (a, b) {
-        if (a.modelMoneyValueId.costPrice > b.modelMoneyValueId.costPrice) {
-          return 1;
-        }
-        if (a.modelMoneyValueId.costPrice < b.modelMoneyValueId.costPrice) {
-          return -1;
-        }
-        return 0;
-      });
-    } else if (ord === false) {
-      return products.sort(function (a, b) {
-        if (a.modelMoneyValueId.costPrice < b.modelMoneyValueId.costPrice) {
-          return 1;
-        }
-        if (a.modelMoneyValueId.costPrice > b.modelMoneyValueId.costPrice) {
-          return -1;
-        }
-        return 0;
-      });
-    } else {
-      return products;
-    }
-  };
-
-  async function getRops(page = 1, dif = filt, col = filtcol, ord = order) {
-    let promises = [];
-    let prods = null;
-
-    if (dif === null && col.length === 0) {
-      promises.push(getRopa(page));
-    } else if (dif !== null && col.length === 0) {
-      const prod = {
-        product: dif.id,
-      };
-      promises.push(getRopFilt(page, prod));
-    } else if (dif === null && col.length !== 0) {
-      if (col.length < 1) {
-        promises.push(getRopa(1));
-      } else {
-        promises.push(getColFilt(page, col));
-      }
-    }
-
-    try {
-      const responses = await Promise.all(promises);
-      responses.forEach((response) => {
-        prods = response.data.products;
-        setProducts(orderProduct(prods, ord));
-        setTotal(response.data.totalItems);
-        setFiltcol(col);
-        setOrder(ord);
-        setFilt(dif);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    getRops();
-  }, [filt, filtcol]);
 
   return (
     <div
@@ -95,6 +36,7 @@ const Content = () => {
       }`}*/
     >
       <br />
+      <MiniCarrito log={log} className="hidden" carrito={carrito} />
       <hr className="w-4/6  m-auto" />
       <div className="mx-auto max-w-6xl m-auto flex pt-7 ">
         {/* Grid in 2 columns */}

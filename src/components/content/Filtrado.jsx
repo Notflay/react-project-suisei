@@ -16,7 +16,7 @@ const Filtrado = ({ getRops, filt, setFilt }) => {
   const [isExpandedCol, setIsExpandedCol] = useState(false);
   const [colores, setColores] = useState([]);
 
-  const { total } = useContext(AppContext);
+  const { total, filtName, setFiltName } = useContext(AppContext);
 
   async function getTypesProducts() {
     const response = await getTypePrd();
@@ -70,6 +70,25 @@ const Filtrado = ({ getRops, filt, setFilt }) => {
               }}
             >
               {filt.name} <RiCloseLine></RiCloseLine>
+            </button>
+          </div>
+        </div>
+      ) : filtName ? (
+        <div className="border-b-2 border-indigo-500 w-full">
+          <div className="pb-2 font-semibold flex">
+            <h1 className="ml-3">Filtro seleccionado</h1>
+            <span className="ml-28">
+              <AiOutlineClose style={{ fontSize: "20px" }}></AiOutlineClose>
+            </span>
+          </div>
+          <div className="ml-3 p-2 flex gap-2">
+            <button
+              className="border block border-red-500 text-xs"
+              onClick={() => {
+                setFiltName(null);
+              }}
+            >
+              {filtName} <RiCloseLine></RiCloseLine>
             </button>
           </div>
         </div>

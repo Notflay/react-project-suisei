@@ -3,11 +3,19 @@ import { React, useState } from "react";
 import "../css/Login.css";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../services/axios.service";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Login({ changeItem }) {
   const [clicked, setClicked] = useState(false);
 
   const navigate = new useNavigate();
+
+  const notify = (msj) => {
+    toast.error(msj, {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  };
 
   async function loginIn(e) {
     e.preventDefault();
@@ -24,12 +32,13 @@ export default function Login({ changeItem }) {
         }
       })
       .catch((error) => {
-        console.log(error);
+        notify("Correo y/o contraseña incorrecta!");
       });
   }
 
   return (
     <>
+      <ToastContainer />
       <div className="flex min-h-full items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
         <div className="w-full max-w-md space-y-8">
           <div>
