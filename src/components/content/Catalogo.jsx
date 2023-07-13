@@ -33,8 +33,8 @@ const Catalogo = ({ products }) => {
   async function getProd(id) {
     const prod = await getProduct(id);
     setProdId(prod.data);
-    console.log(prod.status);
     details.current.classList.toggle("hidden");
+    const produ = prodId;
   }
 
   async function pushCart() {

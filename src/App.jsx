@@ -49,6 +49,7 @@ function App() {
   const [rol, setRol] = useState(null);
 
   const carrito = useRef(null);
+  const valueSearch = useRef(null);
 
   useEffect(() => {
     setBottons(Math.ceil(total / 9));
@@ -151,6 +152,7 @@ function App() {
       promises.push(getRopFilt(page, prod));
     } else if (dif === null && col.length === 0 && name !== null) {
       promises.push(searchForTitle(page, { name: name }));
+      valueSearch.current.value = null;
     } else if (dif === null && col.length !== 0 && name === null) {
       if (col.length < 1) {
         promises.push(getRopa(1));
@@ -210,6 +212,7 @@ function App() {
         totalPre,
         carrito,
         rol,
+        valueSearch,
       }}
     >
       <Router>

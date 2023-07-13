@@ -5,7 +5,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { AiOutlineDropbox } from "react-icons/ai";
-import { FaSearch } from "react-icons/fa";
+
 import { AppContext } from "../../App";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,12 +14,20 @@ import { useRef } from "react";
 import { jsPDF } from "jspdf";
 
 import "jspdf-autotable";
+import Buscador from "../content/Buscador";
 
 const Header = ({ changeItem, getValidationsUser }) => {
-  const { toggle, setToggle, log, preVentas, getRops, getUser, carrito, rol } =
-    useContext(AppContext);
-
-  const valueSearch = useRef(null);
+  const {
+    toggle,
+    setToggle,
+    log,
+    preVentas,
+    getRops,
+    getUser,
+    carrito,
+    rol,
+    valueSearch,
+  } = useContext(AppContext);
 
   const notify = () => {
     toast.error("Inicia sesión!", {
@@ -199,69 +207,7 @@ const Header = ({ changeItem, getValidationsUser }) => {
             )}
           </div>
         </div>
-        <div
-          className="w-full absolute lg:w-auto left-1"
-          style={{
-            height: "50px",
-            borderRadius: "150px",
-            backgroundColor: "#fff",
-            width: "650px",
-            marginLeft: "1150px",
-          }}
-        >
-          <input
-            style={{
-              background: "transparent",
-              marginLeft: "25px",
-              marginTop: "10px",
-              fontSize: "18px",
-              fontWeight: "400",
-              width: "90%",
-              outline: "none",
-              color: "#333",
-              position: "absolute",
-              letterSpacing: ".2px",
-              textAlign: "left",
-            }}
-            ref={valueSearch}
-            placeholder="Buscar en Suisei.com"
-          ></input>
-          <div
-            style={{
-              marginLeft: "100%",
-              marginTop: "",
-              textAlign: "center",
-              cursor: "pointer",
-            }}
-            onClick={() => {
-              if (valueSearch.current.value.length > 1) {
-                console.log(valueSearch.current.value);
-                getRops(1, null, [], null, valueSearch.current.value);
-              }
-            }}
-          >
-            <div
-              style={{
-                position: "absolute",
-                marginLeft: "-40px",
-                marginTop: "0px",
-                width: "50px",
-                height: "50px",
-                backgroundColor: "#f64242",
-                borderRadius: "100%",
-              }}
-            >
-              <FaSearch
-                style={{
-                  fontSize: "25px",
-                  textAlign: "center",
-                  marginLeft: "10px",
-                  marginTop: "13px",
-                }}
-              ></FaSearch>
-            </div>
-          </div>
-        </div>
+        <Buscador valueSearch={valueSearch} getRops={getRops} />
       </nav>
     </div>
   );
