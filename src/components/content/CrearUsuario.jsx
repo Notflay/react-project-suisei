@@ -40,7 +40,7 @@ const CrearUsuario = ({}) => {
               Forma parte de Suisei Peru.
             </h2>
           </div>
-          <form className="mt-8 space-y-6" nSubmit={formData}>
+          <form className="mt-8 space-y-6" onSubmit={formData}>
             <input type="hidden" name="remember" value="true" />
             <div className="-space-y-px rounded-md shadow-sm">
               <div>
