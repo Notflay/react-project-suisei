@@ -1,32 +1,5 @@
+# Descripcion
+Este es un proyecto hecho por mí, sobre una tienda virtual responsive enfocada en el rubro textil. Cuenta con sistema de pagos, filtrado en los productos, registro de usuarios, Etc.
+
 # Tienda Suisei
 [project-suisei.vercel.app](https://project-suisei.vercel.app/)
-
-1. Colores a utilizar: #A10115 #D72C16 #F0EFEA #C0B2B5
-
-2.
-
-3.
-
-4.
-
-5.
-
-6.
-
-7.
-
-8.
-
-9.
-
-10.
-
-11.
-
-12.
-
-13.
-
-14.
-
-15.
