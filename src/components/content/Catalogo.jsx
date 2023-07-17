@@ -30,6 +30,12 @@ const Catalogo = ({ products }) => {
     }
   };
 
+  const notifyExito = (msj) => {
+    toast.success(msj, {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  };
+
   async function getProd(id) {
     const prod = await getProduct(id);
     setProdId(prod.data);
@@ -44,6 +50,7 @@ const Catalogo = ({ products }) => {
       talla: size,
     }).then((response) => {
       changeItem();
+      notifyExito("Agregado a tu carrito");
     });
   }
 
@@ -212,6 +219,7 @@ const Catalogo = ({ products }) => {
         details={details}
         stock={stock}
         rol={rol}
+        notifyExito={notifyExito}
       />
     </div>
   );

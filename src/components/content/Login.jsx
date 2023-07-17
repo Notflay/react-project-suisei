@@ -26,12 +26,16 @@ export default function Login({ changeItem }) {
     })
       .then((response) => {
         if (response.status === 201) {
+          notify("Exitoso!");
           navigate("/");
           localStorage.setItem("login", response.data);
           changeItem();
+        } else {
+          notify("Correo y/o contraseña incorrecta!");
         }
       })
       .catch((error) => {
+        console.log("error");
         notify("Correo y/o contraseña incorrecta!");
       });
   }

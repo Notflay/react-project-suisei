@@ -71,7 +71,7 @@ const Header = ({ changeItem, getValidationsUser }) => {
         venta.tipoComprobante,
         venta.documentoIde,
         venta.numDocumento,
-        venta.total,
+        venta.total.toFixed(2),
       ]),
     ];
 

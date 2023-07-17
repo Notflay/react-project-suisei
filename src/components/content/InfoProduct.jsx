@@ -15,14 +15,9 @@ const InfoProduct = ({
   setCantidad,
   stock,
   rol,
+  notifyExito,
 }) => {
-  const notifyExito = () => {
-    toast.success("Cambiando estado", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
-  };
   async function updateEstado(id, data) {
-    console.log(data);
     await updateEstadoProd(id, data);
   }
 
@@ -337,7 +332,7 @@ const InfoProduct = ({
                                 updateEstado(prodId._id, {
                                   estado: prodId.modelStatId.name,
                                 });
-                                notifyExito();
+                                notifyExito("Cambiando estado");
                               }}
                             >
                               {prodId.modelStatId.name == "DISPONIBLE"
